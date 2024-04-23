@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UniEventos {
-    public List<Clientes> clientes = new ArrayList<>();
+    public List<Cliente> clientes = new ArrayList<>();
 
-    public void registrarNuevoCliente(Clientes clientes) {
+    public void registrarNuevoCliente(Cliente clientes) {
         if (buscarClientePorEmail(clientes.getCorreo()) == true) {
             System.out.println("El cliente ya está registrado.");
             return;
