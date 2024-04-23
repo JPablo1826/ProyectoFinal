@@ -10,8 +10,16 @@ import lombok.Data;
 @Data
 public class Cliente extends Usuario{
     private String contaseña;
+    public List<Compra> compras = new ArrayList<>();
    
 
+    public void  realizarCompra(Compra compra){
+        compras.add(compra);
+    }
+
+    public void cancelar (Compra compra){
+        compras.remove(compra);
+    }
    
 
     @Override
