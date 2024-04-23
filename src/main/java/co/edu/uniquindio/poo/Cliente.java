@@ -16,7 +16,7 @@ public class Cliente extends Usuario{
 
     @Override
     public void displayUserInfo() {
-        System.out.println("Admin ID: " + getID() + ", Name: " + getNombre());
+        System.out.println("Cliente: " + getID() + ", nombre: " + getNombre());
     }
     
 

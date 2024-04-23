@@ -9,6 +9,7 @@ import lombok.Data;
 public class UniEventos {
     public List<Cliente> clientes = new ArrayList<>();
     public List<Evento> eventos = new ArrayList<>();
+    private static Administrador instancia;
 
     //Registrar un cliente
     public void registrarNuevoCliente(Cliente cliente) {
@@ -53,7 +54,7 @@ public class UniEventos {
     }
 
    
-
+    //Modificar un evento 
 
     public boolean modificarEvento(String idEvento, Evento eventoModificado) {
 
@@ -79,6 +80,8 @@ public class UniEventos {
         return false;
     }
 
+
+    //Eliminar evento 
     public boolean eliminarEventos(String idEvento) {
 
         // Utilizar removeIf para eliminar el evento con el ID especificado
@@ -86,11 +89,13 @@ public class UniEventos {
 
     }
 
+    /*
     public void listarEventos() {
 
     }
 
-    /*public List<Evento> buscarEventos() {
+
+    public List<Evento> buscarEventos() {
 
     public Evento buscarEventoPorId(String idEvento) {
         for (Evento evento : eventos) {
@@ -101,4 +106,39 @@ public class UniEventos {
         return null; // Devuelve null si no se encuentra ningún evento con ese ID
 
     }*/
-}
+
+
+    //Patron Singlenton para administrador
+    public synchronized static Administrador obtenerInstancia() {
+        // Si la instancia aún no ha sido creada, la creamos
+        if (instancia == null) {
+            instancia = new Administrador();
+        }
+        // Devolvemos la instancia existente
+        return instancia;
+    }
+   
+
+    //Iniciar Sesion 
+  
+        public boolean iniciarSesion(String correo, String contrasena) {
+            // Verificar si las credenciales corresponden a un administrador
+            if (esAdministrador(correo, contrasena)) {
+                System.out.println("Inicio de sesión exitoso como administrador");
+                // Aquí puedes agregar la lógica para el administrador si es necesario
+                return true;
+            } else {
+                System.out.println("Inicio de sesión exitoso como cliente");
+                // Aquí puedes agregar la lógica para el cliente si es necesario
+                return false;
+            }
+        }
+        
+        // Método para verificar si las credenciales corresponden a un administrador
+        private boolean esAdministrador(String correo, String contrasena) {
+            Administrador administrador = Administrador.obtenerInstancia();
+            return correo.equals(administrador.getCorreo()) && contrasena.equals(administrador.getContrasena());
+        }
+    }
+      
+
