@@ -9,8 +9,18 @@ import lombok.Data;
 public class UniEventos {
     public List<Cliente> clientes = new ArrayList<>();
     public List<Evento> eventos = new ArrayList<>();
+<<<<<<< HEAD
 
 //Registrar nuevo cliente
+=======
+
+    // Registrar un cliente
+
+    private static Administrador instancia;
+
+    // Registrar un cliente
+
+>>>>>>> 8e0a81d4c6dd84e5006a04461e4b5240b9cfbd00
     public void registrarNuevoCliente(Cliente cliente) {
         if (buscarClientePorEmail(cliente.getCorreo()) == true) {
             System.out.println("El cliente ya está registrado.");
@@ -85,10 +95,16 @@ public class UniEventos {
 
     }
 
-    public void listarEventos() {
+    /*
+     * Para despues
+     * public void listarEventos() {
+     *
+     * }
+     */
 
-    }
+    // Iniciar Sesion
 
+<<<<<<< HEAD
     
 
 
@@ -102,6 +118,22 @@ public class UniEventos {
         }
         return null; // Devuelve null si no se encuentra ningún evento con ese ID
 
+=======
+    public boolean iniciarSesion(String correo, String contrasena) {
+             // Verificar si las credenciales corresponden a un administrador
+        if (esAdministrador(correo, contrasena)) {
+            System.out.println("Inicio de sesión exitoso como administrador");
+            
+
+    // Patron Singlenton para administrador
+    public synchronized static Administrador obtenerInstancia() {
+        // Si la instancia aún no ha sido creada, la creamos
+        if (instancia == null) {
+            instancia = new Administrador();
+        }
+        // Devolvemos la instancia existente
+        return instancia;
+>>>>>>> 8e0a81d4c6dd84e5006a04461e4b5240b9cfbd00
     }
     // Iniciar Sesion
 
@@ -110,12 +142,19 @@ public class UniEventos {
         if (esAdministrador(correo, contrasena)) {
             System.out.println("Inicio de sesión exitoso como administrador");
             // Aquí puedes agregar la lógica para el administrador si es necesario
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8e0a81d4c6dd84e5006a04461e4b5240b9cfbd00
             return true;
         } else {
             System.out.println("Inicio de sesión exitoso como cliente");
             // Aquí puedes agregar la lógica para el cliente si es necesario
             return false;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8e0a81d4c6dd84e5006a04461e4b5240b9cfbd00
         }
     }
 
@@ -124,5 +163,8 @@ public class UniEventos {
         Administrador administrador = Administrador.obtenerInstancia();
         return correo.equals(administrador.getCorreo()) && contrasena.equals(administrador.getContrasena());
     }
+
+}
+
 }
 
