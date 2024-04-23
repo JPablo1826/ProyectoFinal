@@ -11,7 +11,7 @@ public class UniEventos {
     public List<Evento> eventos = new ArrayList<>();
     private static Administrador instancia;
 
-    //Registrar un cliente
+    // Registrar un cliente
     public void registrarNuevoCliente(Cliente cliente) {
         if (buscarClientePorEmail(cliente.getCorreo()) == true) {
             System.out.println("El cliente ya está registrado.");
@@ -31,17 +31,16 @@ public class UniEventos {
         return false;
     }
 
-    
- //Registrar un evento 
+    // Registrar un evento
 
     public void registrarNuevoEvento(Evento evento) {
-        if (buscarClientePorEmail(evento.getIdEvento()) == true) {
+        if (buscarEventoPorIdEvento(evento.getIdEvento()) == true) {
             System.out.println("El evento ya se encuentra creado");
             return;
         }
 
         eventos.add(evento);
-        System.out.println("Cliente registrado correctamente.");
+        System.out.println("Evento registrado correctamente.");
     }
 
     public boolean buscarEventoPorIdEvento(String idEvento) {
@@ -53,8 +52,7 @@ public class UniEventos {
         return false;
     }
 
-   
-    //Modificar un evento 
+    // Modificar un evento
 
     public boolean modificarEvento(String idEvento, Evento eventoModificado) {
 
@@ -66,7 +64,7 @@ public class UniEventos {
                 eventoExistente.setNombreEvento(eventoModificado.getNombreEvento());
                 eventoExistente.setCiudad(eventoModificado.getCiudad());
                 eventoExistente.setDescripcion(eventoModificado.getDescripcion());
-               // eventoExistente.setEvento(eventoModificado.getEvento());
+                // eventoExistente.setEvento(eventoModificado.getEvento());
                 eventoExistente.setImagen(eventoModificado.getImagen());
                 eventoExistente.setFecha(eventoModificado.getFecha());
                 eventoExistente.setDireccion(eventoModificado.getDireccion());
@@ -80,8 +78,7 @@ public class UniEventos {
         return false;
     }
 
-
-    //Eliminar evento 
+    // Eliminar evento
     public boolean eliminarEventos(String idEvento) {
 
         // Utilizar removeIf para eliminar el evento con el ID especificado
@@ -89,26 +86,13 @@ public class UniEventos {
 
     }
 
-    /*
     public void listarEventos() {
 
     }
 
+    
 
-    public List<Evento> buscarEventos() {
-
-    public Evento buscarEventoPorId(String idEvento) {
-        for (Evento evento : eventos) {
-            if (evento.getIdEvento().equals(idEvento)) {
-                return evento; // Devuelve el evento si el ID coincide
-            }
-        }
-        return null; // Devuelve null si no se encuentra ningún evento con ese ID
-
-    }*/
-
-
-    //Patron Singlenton para administrador
+    // Patron Singlenton para administrador
     public synchronized static Administrador obtenerInstancia() {
         // Si la instancia aún no ha sido creada, la creamos
         if (instancia == null) {
@@ -117,28 +101,25 @@ public class UniEventos {
         // Devolvemos la instancia existente
         return instancia;
     }
-   
 
-    //Iniciar Sesion 
-  
-        public boolean iniciarSesion(String correo, String contrasena) {
-            // Verificar si las credenciales corresponden a un administrador
-            if (esAdministrador(correo, contrasena)) {
-                System.out.println("Inicio de sesión exitoso como administrador");
-                // Aquí puedes agregar la lógica para el administrador si es necesario
-                return true;
-            } else {
-                System.out.println("Inicio de sesión exitoso como cliente");
-                // Aquí puedes agregar la lógica para el cliente si es necesario
-                return false;
-            }
-        }
-        
-        // Método para verificar si las credenciales corresponden a un administrador
-        private boolean esAdministrador(String correo, String contrasena) {
-            Administrador administrador = Administrador.obtenerInstancia();
-            return correo.equals(administrador.getCorreo()) && contrasena.equals(administrador.getContrasena());
+    // Iniciar Sesion
+
+    public boolean iniciarSesion(String correo, String contrasena) {
+        // Verificar si las credenciales corresponden a un administrador
+        if (esAdministrador(correo, contrasena)) {
+            System.out.println("Inicio de sesión exitoso como administrador");
+            // Aquí puedes agregar la lógica para el administrador si es necesario
+            return true;
+        } else {
+            System.out.println("Inicio de sesión exitoso como cliente");
+            // Aquí puedes agregar la lógica para el cliente si es necesario
+            return false;
         }
     }
-      
 
+    // Método para verificar si las credenciales corresponden a un administrador
+    private boolean esAdministrador(String correo, String contrasena) {
+        Administrador administrador = Administrador.obtenerInstancia();
+        return correo.equals(administrador.getCorreo()) && contrasena.equals(administrador.getContrasena());
+    }
+}
