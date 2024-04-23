@@ -3,33 +3,35 @@ package co.edu.uniquindio.poo;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Data;
+
+@Data
 public class UniEventos {
     public List<Cliente> clientes = new ArrayList<>();
+    public List<Evento> eventos = new ArrayList<>();
 
-    public void registrarNuevoCliente(Cliente clientes) {
-        if (buscarClientePorEmail(clientes.getCorreo()) == true) {
+    //Registrar un cliente
+    public void registrarNuevoCliente(Cliente cliente) {
+        if (buscarClientePorEmail(cliente.getCorreo()) == true) {
             System.out.println("El cliente ya está registrado.");
             return;
         }
 
-        clientes.add(clientes);
+        clientes.add(cliente);
         System.out.println("Cliente registrado correctamente.");
     }
 
     public boolean buscarClientePorEmail(String email) {
-        for (Clientes clientes : clientes) {
-            if (clientes.getCorreo().equals(email)) {
+        for (Cliente cliente : clientes) {
+            if (cliente.getCorreo().equals(email)) {
                 return true;
             }
         }
         return false;
     }
 
-    public List<Clientes> getClientes() {
-        return clientes;
-    }
-
-    public List<Evento> eventos = new ArrayList<>();
+    
+ //Registrar un evento 
 
     public void registrarNuevoEvento(Evento evento) {
         if (buscarClientePorEmail(evento.getIdEvento()) == true) {
@@ -50,9 +52,8 @@ public class UniEventos {
         return false;
     }
 
-    public List<Evento> getIdEventos() {
-        return eventos;
-    }
+   
+
 
     public boolean modificarEvento(String idEvento, Evento eventoModificado) {
 
@@ -64,7 +65,7 @@ public class UniEventos {
                 eventoExistente.setNombreEvento(eventoModificado.getNombreEvento());
                 eventoExistente.setCiudad(eventoModificado.getCiudad());
                 eventoExistente.setDescripcion(eventoModificado.getDescripcion());
-                eventoExistente.setEvento(eventoModificado.getEvento());
+               // eventoExistente.setEvento(eventoModificado.getEvento());
                 eventoExistente.setImagen(eventoModificado.getImagen());
                 eventoExistente.setFecha(eventoModificado.getFecha());
                 eventoExistente.setDireccion(eventoModificado.getDireccion());
