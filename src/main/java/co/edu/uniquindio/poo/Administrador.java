@@ -11,13 +11,13 @@ public class Administrador extends Usuario {
 
     private static Administrador instancia;
 
-    // Método estático para obtener la instancia única de Administrador
+    
     public static Administrador obtenerInstancia() {
-        // Si la instancia aún no ha sido creada, la creamos
+        
         if (instancia == null) {
             instancia = new Administrador();
         }
-        // Devolvemos la instancia existente
+        
         return instancia;
     }
 

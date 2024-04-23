@@ -9,8 +9,7 @@ import lombok.Data;
 public class UniEventos {
     public List<Cliente> clientes = new ArrayList<>();
     public List<Evento> eventos = new ArrayList<>();
-    private static Administrador instancia;
-
+  
     //Registrar un cliente
     public void registrarNuevoCliente(Cliente cliente) {
         if (buscarClientePorEmail(cliente.getCorreo()) == true) {
@@ -108,31 +107,23 @@ public class UniEventos {
     }*/
 
 
-    //Patron Singlenton para administrador
-    public synchronized static Administrador obtenerInstancia() {
-        // Si la instancia aún no ha sido creada, la creamos
-        if (instancia == null) {
-            instancia = new Administrador();
-        }
-        // Devolvemos la instancia existente
-        return instancia;
-    }
-   
+
+    
 
     //Iniciar Sesion 
   
         public boolean iniciarSesion(String correo, String contrasena) {
-            // Verificar si las credenciales corresponden a un administrador
-            if (esAdministrador(correo, contrasena)) {
-                System.out.println("Inicio de sesión exitoso como administrador");
-                // Aquí puedes agregar la lógica para el administrador si es necesario
-                return true;
-            } else {
-                System.out.println("Inicio de sesión exitoso como cliente");
-                // Aquí puedes agregar la lógica para el cliente si es necesario
-                return false;
-            }
+             // Verificar si las credenciales corresponden a un administrador
+        if (esAdministrador(correo, contrasena)) {
+            System.out.println("Inicio de sesión exitoso como administrador");
+            
+            return true;
+        } else {
+            System.out.println("Inicio de sesión exitoso como cliente");
+            // Aquí puedes agregar la lógica para el cliente si es necesario
+            return false;
         }
+    }
         
         // Método para verificar si las credenciales corresponden a un administrador
         private boolean esAdministrador(String correo, String contrasena) {
