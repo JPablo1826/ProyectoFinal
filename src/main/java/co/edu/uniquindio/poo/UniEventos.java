@@ -9,6 +9,7 @@ import lombok.Data;
 public class UniEventos {
     public List<Cliente> clientes = new ArrayList<>();
     public List<Evento> eventos = new ArrayList<>();
+    public List<Cupon> cupones=new ArrayList<>();
 
     public void registrarNuevoCliente(Cliente cliente) {
         if (buscarClientePorEmail(cliente.getCorreo()) == true) {
@@ -92,20 +93,18 @@ public class UniEventos {
      */
 
     // Iniciar Sesion
-
-<<<<<<< HEAD
-    
-
-
     public List<Evento> buscarEventos() {
-
+        return null;
+    }
     public Evento buscarEventoPorId(String idEvento) {
         for (Evento evento : eventos) {
             if (evento.getIdEvento().equals(idEvento)) {
                 return evento; // Devuelve el evento si el ID coincide
             }
         }
-        return null;} // Devuelve null si no se encuentra ningún evento con ese ID
+        return null;
+    }
+     // Devuelve null si no se encuentra ningún evento con ese ID
 
 
     // Iniciar Sesion
@@ -130,9 +129,8 @@ public class UniEventos {
         Administrador administrador = Administrador.obtenerInstancia();
         return correo.equals(administrador.getCorreo()) && contrasena.equals(administrador.getContrasena());
     }
-
-}
-
- }
-
-
+    public void redimirCupon(String codigo){
+        
+        
+    }
+    }

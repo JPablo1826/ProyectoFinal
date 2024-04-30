@@ -10,8 +10,12 @@ import lombok.AllArgsConstructor;
 @Getter
 @Setter
 public class Cupon {
-    private  int cuponRegistro;
-    private int cuponPrimeraCompra;
+    private String codigo;
+    private boolean cuponRegistro;
     private Estado estado;
+
+    
+
+
     
 }
