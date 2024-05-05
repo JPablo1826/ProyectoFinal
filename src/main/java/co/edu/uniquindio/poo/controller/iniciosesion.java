@@ -1,5 +1,8 @@
 package co.edu.uniquindio.poo.controller;
 
+import java.io.IOException;
+
+import co.edu.uniquindio.poo.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -20,7 +23,11 @@ public class iniciosesion {
 
     @FXML
     void registrarseaction(ActionEvent event) {
-
+        try {
+            App.setRoot("registro");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -7,8 +7,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextArea;
-import co.edu.uniquindio.poo.Evento;
-import co.edu.uniquindio.poo.Compra;
+import co.edu.uniquindio.poo.model.Evento;
+import co.edu.uniquindio.poo.model.Compra;
 
 public class menucliente {
 

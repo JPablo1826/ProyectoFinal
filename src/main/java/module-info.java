@@ -1,9 +1,9 @@
-module co.edu.uniquindio.poo {
+open module co.edu.uniquindio.poo {
     requires javafx.controls;
-    requires lombok;
+    requires transitive javafx.graphics;
+    requires static lombok;
     requires javafx.fxml;
     requires transitive jakarta.mail;
 
-    opens co.edu.uniquindio.poo to javafx.fxml;
-    exports co.edu.uniquindio.poo;
+    exports co.edu.uniquindio.poo to javafx.fxml;
 }

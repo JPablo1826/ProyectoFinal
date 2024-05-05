@@ -1,6 +1,6 @@
 package co.edu.uniquindio.poo.controller;
 
-import co.edu.uniquindio.poo.Evento;
+import co.edu.uniquindio.poo.model.Evento;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
