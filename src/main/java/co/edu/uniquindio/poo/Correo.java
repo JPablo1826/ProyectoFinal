@@ -20,11 +20,11 @@ import jakarta.mail.internet.MimeMultipart;
 
 public class Correo {
 
-	public static void main(String[] args) throws AddressException, MessagingException, IOException {
-		sendEmail("emilibermudez6@gmail.com", "Redime tu Cupón | Unieventos", "Sarita", "10%");
+	public static void main(String[] args) throws AddressException, MessagingException, Exception {
+		enviarCorreoRegistro("emilibermudez6@gmail.com", "Emili","1122323");
 	}
 
-	public static void sendEmail(String toAddress, String subject, String nombre, String tipoCupon)
+	public static void sendEmail(String toAddress, String subject, MimeBodyPart... messageBodyParts)
 			throws AddressException, MessagingException, IOException {
 
 		final String username = "unieventosuq@gmail.com";
@@ -38,18 +38,44 @@ public class Correo {
 		msg.setSubject(subject);
 		msg.setSentDate(new Date());
 
-		MimeBodyPart messageBodyPart = new MimeBodyPart();
-		messageBodyPart.setContent(generarMensajeCorreo(nombre, tipoCupon).toString(), "text/html");
-
 		Multipart multipart = new MimeMultipart();
-		multipart.addBodyPart(messageBodyPart);
+		for (MimeBodyPart messageBodyPart : messageBodyParts) {
+			multipart.addBodyPart(messageBodyPart);
+		}
 
 		msg.setContent(multipart);
 
 		Transport.send(msg, username, password);
 	}
 
-	private static StringBuilder generarMensajeCorreo(String nombre, String tipoCupon) {
+	public static void enviarCorreoCupon(String mail, String nombre, String tipoCupon) throws Exception{
+		MimeBodyPart messageBodyPart = new MimeBodyPart();
+		messageBodyPart.setContent(generarMensajeCupon(nombre, tipoCupon).toString(), "text/html");
+		sendEmail(mail, "Redime tu Cupón | Unieventos", messageBodyPart);
+	}
+	public static void enviarCorreoRegistro(String mail, String nombre, String codigo) throws Exception{
+		MimeBodyPart messageBodyPart = new MimeBodyPart();
+		messageBodyPart.setContent(generarMensajeRegistro(nombre, codigo).toString(), "text/html");
+		sendEmail(mail, "verifica tu cuenta", messageBodyPart);
+	}
+	private static Object generarMensajeRegistro(String nombre, String codigo) {
+		StringBuilder sbMsg1Solicitud = new StringBuilder();
+		sbMsg1Solicitud.append("<p>");
+		sbMsg1Solicitud.append("Estimado/a, ");
+		sbMsg1Solicitud.append("<b>");
+		sbMsg1Solicitud.append(nombre);
+		sbMsg1Solicitud.append("</b>");
+		sbMsg1Solicitud.append("<br><br>");
+		sbMsg1Solicitud.append("Este es tu codigo para activar tu cuenta ");
+		sbMsg1Solicitud.append(codigo);
+		sbMsg1Solicitud.append("<br><br>");
+		sbMsg1Solicitud.append("Para activar tu cuenta pega el siguiente código que ves en pantalla");
+		sbMsg1Solicitud.append(generarMensajeCodigo(codigo));
+		sbMsg1Solicitud.append("</p>");
+		return sbMsg1Solicitud;
+	}
+
+	private static StringBuilder generarMensajeCupon(String nombre, String tipoCupon) {
 		StringBuilder sbMsg1Solicitud = new StringBuilder();
 		sbMsg1Solicitud.append("<p>");
 		sbMsg1Solicitud.append("Estimado/a, ");
@@ -118,4 +144,23 @@ public class Correo {
 		prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 		return prop;
 	}
-}		
+	public static void enviarCorreoFactura( Factura factura) throws Exception{
+		MimeBodyPart messageBodyPart = new MimeBodyPart();
+		messageBodyPart.setContent(generarMensajeFactura(factura).toString(), "text/html");
+		sendEmail(factura.getCompra().getCliente().getCorreo(),"Detalles de su factura", messageBodyPart);
+	}
+	private static Object generarMensajeFactura(Factura factura) {
+		StringBuilder sbMsg1Solicitud = new StringBuilder();
+		sbMsg1Solicitud.append("<p>");
+		sbMsg1Solicitud.append("Estimado/a, ");
+		sbMsg1Solicitud.append("<b>");
+		sbMsg1Solicitud.append("</b>");
+		sbMsg1Solicitud.append("<br><br>");
+		sbMsg1Solicitud.append("Esta es la factura de la compra realizada");
+		sbMsg1Solicitud.append(factura);
+		sbMsg1Solicitud.append("<br><br>");
+		sbMsg1Solicitud.append("Gracias por confiar en unieventos");
+		sbMsg1Solicitud.append("</p>");
+		return sbMsg1Solicitud;
+	}
+}

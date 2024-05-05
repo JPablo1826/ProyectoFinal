@@ -3,18 +3,19 @@ package co.edu.uniquindio.poo;
 
     import lombok.AllArgsConstructor;
     import lombok.Data;
+    import lombok.Builder;
     
     @Data
+    @Builder
     @AllArgsConstructor
     public class Factura {
-        private int subTotal;
-        private int total;
+        private Compra compra;
+        private double total;
         private LocalDate fechaCompra;
         private String codigoFactura;
-        private String codigoQr;
-    
-    
-        public void enviarCorre(){
-            
+        @Override
+        public String toString() {
+            return "Factura [compra=" + compra + ", total=" + total + ", fechaCompra=" + fechaCompra
+                    + ", codigoFactura=" + codigoFactura + "]";
         }
 }

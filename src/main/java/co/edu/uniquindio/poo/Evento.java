@@ -1,9 +1,8 @@
 package co.edu.uniquindio.poo;
 
 import java.time.LocalDate;
-import java.util.List;
-
 import lombok.AllArgsConstructor;
+import java.util.List;
 import lombok.Data;
 @Data
 @AllArgsConstructor

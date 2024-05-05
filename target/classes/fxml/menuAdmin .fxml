@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="579.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.controller.menuadmin">
+  <tabs>
+    <Tab text="Gestionar Eventos">
+      <content>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="571.0">
+               <children>
+                  <ComboBox fx:id="ciudadcb" editable="true" layoutX="75.0" layoutY="28.0" prefWidth="150.0" />
+                  <Label layoutX="37.0" layoutY="32.0" text="Ciudad" />
+                  <TableView fx:id="tablaciudad" layoutX="37.0" layoutY="102.0" prefHeight="200.0" prefWidth="469.0">
+                     <columns>
+                        <TableColumn fx:id="nombregescol" prefWidth="75.0" text="Nombre" />
+                        <TableColumn fx:id="tipogescol" prefWidth="75.0" text="Tipo" />
+                        <TableColumn fx:id="descripciongescol" prefWidth="75.0" text="Descripcion" />
+                        <TableColumn fx:id="imagengescol" prefWidth="75.0" text="Imagen" />
+                        <TableColumn fx:id="fechagescol" prefWidth="75.0" text="Fecha" />
+                        <TableColumn fx:id="direcciongescol" prefWidth="75.0" text="Direccion" />
+                     </columns>
+                  </TableView>
+                  <Button layoutX="253.0" layoutY="28.0" mnemonicParsing="false" onAction="#crearevent" text="Crear" />
+                  <Button layoutX="323.0" layoutY="28.0" mnemonicParsing="false" onAction="#modificarevent" text="Modificar" />
+                  <Button layoutX="422.0" layoutY="28.0" mnemonicParsing="false" onAction="#eliminarevent" text="Eliminar" />
+                  <TextField fx:id="nombretf" layoutX="104.0" layoutY="307.0" />
+                  <Label layoutX="37.0" layoutY="311.0" text="Nombre" />
+                  <Label layoutX="44.0" layoutY="345.0" text="Tipo" />
+                  <ComboBox fx:id="tipocb" editable="true" layoutX="104.0" layoutY="341.0" prefWidth="150.0" />
+                  <Label layoutX="289.0" layoutY="311.0" text="Fecha" />
+                  <TextField fx:id="direcciontf" layoutX="356.0" layoutY="341.0" />
+                  <Label layoutX="289.0" layoutY="345.0" text="Direccion" />
+                  <TextField fx:id="descripciontf" layoutX="109.0" layoutY="380.0" />
+                  <Label layoutX="42.0" layoutY="384.0" text="Descripcion" />
+                  <TextField fx:id="precioviptf" layoutX="104.0" layoutY="413.0" />
+                  <Label layoutX="37.0" layoutY="417.0" text="Precio VIP" />
+                  <DatePicker fx:id="fechadp" layoutX="356.0" layoutY="307.0" />
+                  <TextField fx:id="capacidadviptf" layoutX="363.0" layoutY="413.0" />
+                  <Label layoutX="282.0" layoutY="417.0" text="Capacidad VIP" />
+                  <TextField fx:id="preciogeneraltf" layoutX="123.0" layoutY="448.0" />
+                  <Label layoutX="41.0" layoutY="452.0" text="Precio General" />
+                  <TextField fx:id="capacidadgeneraltf" layoutX="399.0" layoutY="448.0" />
+                  <Label layoutX="286.0" layoutY="452.0" text="Capacidad General" />
+               </children>
+            </AnchorPane>
+      </content>
+    </Tab>
+    <Tab text="Crear Cupones">
+      <content>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+               <children>
+                  <Label layoutX="112.0" layoutY="93.0" />
+                  <TextField fx:id="numentradas" layoutX="195.0" layoutY="98.0" />
+                  <Label layoutX="112.0" layoutY="102.0" text="Porcentaje" />
+                  <Label layoutX="223.0" layoutY="43.0" text="Cupones Especiales">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="223.0" layoutY="200.0" mnemonicParsing="false" onAction="#cancelarcompraevent" text="Agregar" />
+                  <TextField fx:id="cupon" layoutX="195.0" layoutY="149.0" />
+                  <Label layoutX="112.0" layoutY="144.0" text="Codigo" />
+               </children>
+            </AnchorPane>
+      </content>
+    </Tab>
+      <Tab text="Datos Estadisticos">
+        <content>
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+               <children>
+                  <TableView fx:id="tablaEstadisticas" layoutX="134.0" layoutY="94.0" prefHeight="200.0" prefWidth="376.0">
+                     <columns>
+                        <TableColumn fx:id="nombreestcol" prefWidth="75.0" text="Nombre" />
+                        <TableColumn fx:id="tipoestcol" prefWidth="75.0" text="Tipo" />
+                        <TableColumn fx:id="porcentajeestcol" prefWidth="135.0" text="Porcentaje Ventas" />
+                        <TableColumn fx:id="totalganadoestcol" prefWidth="93.0" text="Total ganado" />
+                     </columns>
+                  </TableView>
+                  <Label layoutX="259.0" layoutY="14.0" text="Estadisticas">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="localidadcb" layoutX="285.0" layoutY="53.0" prefWidth="150.0" />
+                  <Label layoutX="176.0" layoutY="57.0" text="Localidad" />
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+      <Tab fx:id="c" text="Listar Eventos">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+                     <children>
+                        <TableView fx:id="tablaEstadisticas1" layoutX="134.0" layoutY="94.0" prefHeight="200.0" prefWidth="376.0">
+                           <columns>
+                              <TableColumn fx:id="nombrecol" prefWidth="75.0" text="Nombre" />
+                              <TableColumn fx:id="totalganadocol" prefWidth="93.0" text="Total ganado" />
+                           </columns>
+                        </TableView>
+                        <Label layoutX="259.0" layoutY="14.0" text="Acogida">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="acogidacb" layoutX="285.0" layoutY="53.0" prefWidth="150.0" />
+                        <Label layoutX="176.0" layoutY="57.0" text="Ciudad" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+  </tabs>
+</TabPane>

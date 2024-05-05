@@ -13,6 +13,7 @@ public class Cupon {
     private String codigo;
     private boolean cuponRegistro;
     private Estado estado;
+    private int porcentaje;
 
     
 
