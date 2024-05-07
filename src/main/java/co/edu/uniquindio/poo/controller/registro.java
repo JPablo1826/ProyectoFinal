@@ -1,5 +1,6 @@
 package co.edu.uniquindio.poo.controller;
 
+import co.edu.uniquindio.poo.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -19,6 +20,7 @@ public class registro {
     void registrarevent(ActionEvent event) {
         try {
             ModelFactoryController.getInstance().registrarCliente(cedulatf.getText(),nombretf.getText(), emailtf.getText(), telefonotf.getText(),contrasenapf.getText());
+            App.setRoot("inicioSesion");
         } catch (Exception e) {
             e.printStackTrace();
             new Alert(AlertType.WARNING, "ALERTA NO SE PUEDE REGISTRAR").show();

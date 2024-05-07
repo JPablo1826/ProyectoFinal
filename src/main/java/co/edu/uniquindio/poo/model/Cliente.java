@@ -5,20 +5,28 @@ import java.util.List;
 import lombok.Data;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import co.edu.uniquindio.poo.exceptions.ObjetoExistenteException;
 
 @Data
+@Getter
+@Setter
+@ToString
 @EqualsAndHashCode(callSuper=true)
 public class Cliente extends Usuario {
     public String correo;
     public String telefono;
-    private String contaseña;
+    private String contasena;
+    public String codigo;
     public final List<Compra> compras = new ArrayList<>();
+    private EstrategiaDescuento estrategiaDescuento;
 
     @Builder
-    public Cliente(String ID, String nombre, String telefono, String correo, String contaseña) {
+    public Cliente(String ID, String nombre, String telefono, String correo, String contasena) {
         super(ID, nombre, telefono, correo);
-        this.contaseña = contaseña;
+        this.contasena = contasena;
     }
 
 
@@ -42,6 +50,11 @@ public class Cliente extends Usuario {
             }
         }
         compras.add(compra);
+    }
+
+
+    public boolean estaVericado() {
+        return codigo==null;
     }
 
 }

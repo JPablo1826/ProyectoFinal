@@ -21,6 +21,8 @@ public class Evento implements Serializable{
     private Localidad localidadVIP;
 
     public Evento() {}
-
+   
 }
+
+   
 

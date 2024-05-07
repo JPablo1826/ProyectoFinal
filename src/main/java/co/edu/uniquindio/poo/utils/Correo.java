@@ -51,7 +51,7 @@ public class Correo {
 
 	public static void enviarCorreoCupon(String mail, String nombre, String codigo, String tipoCupon) throws Exception{
 		MimeBodyPart messageBodyPart = new MimeBodyPart();
-		messageBodyPart.setContent(generarMensajeCupon(nombre, tipoCupon).toString(), "text/html");
+		messageBodyPart.setContent(generarMensajeCupon(nombre, tipoCupon, codigo).toString(), "text/html");
 		sendEmail(mail, "Redime tu Cupón | Unieventos", messageBodyPart);
 	}
 	public static void enviarCorreoRegistro(String mail, String nombre, String codigo) throws Exception{
@@ -76,7 +76,7 @@ public class Correo {
 		return sbMsg1Solicitud;
 	}
 
-	private static StringBuilder generarMensajeCupon(String nombre, String tipoCupon) {
+	private static StringBuilder generarMensajeCupon(String nombre, String tipoCupon, String codigo) {
 		StringBuilder sbMsg1Solicitud = new StringBuilder();
 		sbMsg1Solicitud.append("<p>");
 		sbMsg1Solicitud.append("Estimado/a, ");
@@ -89,18 +89,9 @@ public class Correo {
 		sbMsg1Solicitud.append("de descuento!");
 		sbMsg1Solicitud.append("<br><br>");
 		sbMsg1Solicitud.append("Para reclamarlo pega el siguiente código que ves en pantalla");
-		sbMsg1Solicitud.append(generarMensajeCodigo(generarCodigo()));
+		sbMsg1Solicitud.append(generarMensajeCodigo(codigo));
 		sbMsg1Solicitud.append("</p>");
 		return sbMsg1Solicitud;
-	}
-
-	private static String generarCodigo() {
-		Random random = new Random();
-		String codigo = "";
-		for (int i = 0; i < 6; i++) {
-			codigo += random.nextInt(10);
-		}
-		return codigo;
 	}
 
 	private static Session getCreateSession(String mailFrom, String mailPassword) {
