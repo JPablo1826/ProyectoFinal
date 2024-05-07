@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import co.edu.uniquindio.poo.model.UniEventos;
+
 /**
  * JavaFX App
  */
@@ -33,6 +35,8 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+        UniEventos UniEvento= UniEventos.obtenerInstancia();
+       
     }
 
 }

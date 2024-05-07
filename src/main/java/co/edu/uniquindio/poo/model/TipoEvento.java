@@ -5,5 +5,5 @@ public enum TipoEvento {
     TEATRO,
     DEPORTE,
     FESTIVAL,
-    OTRO,
+    
 }

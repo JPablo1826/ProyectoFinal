@@ -10,6 +10,8 @@ import co.edu.uniquindio.poo.exceptions.ObjetoExistenteException;
 @Data
 @EqualsAndHashCode(callSuper=true)
 public class Cliente extends Usuario {
+    public String correo;
+    public String telefono;
     private String contaseña;
     public final List<Compra> compras = new ArrayList<>();
 

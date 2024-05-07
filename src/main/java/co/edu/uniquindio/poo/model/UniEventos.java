@@ -15,21 +15,44 @@ import co.edu.uniquindio.poo.exceptions.ObjetoExistenteException;
 import co.edu.uniquindio.poo.exceptions.ObjetoNoExistenteException;
 import co.edu.uniquindio.poo.exceptions.inicioFallidoException;
 import co.edu.uniquindio.poo.utils.Correo;
-import lombok.Data;
 
-@Data
+import lombok.Getter;
+
+@Getter 
 public class UniEventos implements Serializable {
-    public List<Cliente> clientes = new ArrayList<>();
-    public List<Evento> eventos = new ArrayList<>();
-    public List<Cupon> cupones = new ArrayList<>();
+    private List<Observador> observadores = new ArrayList<>();
+    private List<Cliente> clientes = new ArrayList<>();
+    private List<Evento> eventos = new ArrayList<>();
+    private List<Cupon> cupones = new ArrayList<>();
     private List<Factura> facturas = new ArrayList<>();
+    private static UniEventos instanciaUnica;
+
+    public static UniEventos obtenerInstancia() {
+        if (instanciaUnica == null) {
+            instanciaUnica = new UniEventos();
+        }
+        return instanciaUnica;
+    }
 
     public void registrarNuevoCliente(Cliente cliente) throws Exception {
         if (buscarClientePorEmail(cliente.getCorreo()) != null) {
             throw new ObjetoExistenteException("El cliente ya está registrado.");
         }
         clientes.add(cliente);
-        String codigo = UUID.randomUUID().toString();
+        notificarNuevoCliente(cliente);
+    }
+    private void notificarNuevoCliente(Cliente cliente) {
+        String mensaje = "¡Nuevo evento disponible!";
+        for (Observador observador : observadores) {
+            observador.actualizar(mensaje);
+        }
+    }
+
+    public void agregarObservador(Observador observador) {
+        observadores.add(observador);
+    }
+
+    String codigo = UUID.randomUUID().toString();
         crearCupon(Cupon.builder().cuponRegistro(true).codigo(codigo).estado(Estado.ACTIVO)
                 .porcentaje(15).build());
         Correo.enviarCorreoCupon(cliente.getCorreo(), cliente.getNombre(), codigo, "15%");
@@ -45,14 +68,29 @@ public class UniEventos implements Serializable {
     }
 
     // Registrar un evento
-
-    public void registrarNuevoEvento(Evento evento) throws ObjetoExistenteException {
-        if (buscarEventoPorIdEvento(evento.getIdEvento()) == true) {
-            throw new ObjetoExistenteException("El evento ya se encuentra creado");
-        }
-
-        eventos.add(evento);
+public void registrarNuevoEvento(String tipoEvento) throws ObjetoExistenteException, ObjetoNoExistenteException {
+    // Suponiendo que el ID del evento es generado o manejado de alguna manera aquí
+    Evento evento = crearEvento(tipoEvento);
+    if (buscarEventoPorIdEvento(evento.getIdEvento())) {
+        throw new ObjetoExistenteException("El evento ya se encuentra creado");
     }
+    eventos.add(evento);
+    }
+    public Evento crearEvento(String tipoEvento) throws ObjetoNoExistenteException {
+        switch (tipoEvento) {
+            case "teatro":
+                return new TeatroFactory().crearEvento();
+            case "deportivo":
+                return new DeporteFactory().crearEvento();
+            case "festival":
+                return new FestivalFactory().crearEvento();
+            case "concierto":
+                return new ConciertoFactory().crearEvento();
+            default:
+                throw new ObjetoNoExistenteException("Tipo de evento desconocido: " + tipoEvento);
+        }
+    }
+    
 
     public boolean buscarEventoPorIdEvento(String idEvento) {
         for (Evento evento : eventos) {
@@ -158,37 +196,47 @@ public class UniEventos implements Serializable {
         return null;
     }
 
-    public void realizarCompra(Cliente cliente, String idEvento, String codigoCupon, TipoLocalidad tipo, int cantidad)
-            throws Exception {
-        Cliente encontrado = buscarClientePorEmail(cliente.getCorreo());
-        if (encontrado == null)
-            throw new ObjetoNoExistenteException("El cliente no fue encontrado");
-        Evento evento = buscarEventoPorId(idEvento);
-        Cupon cupon = buscarCuponCodigo(codigoCupon);
-        if (evento == null)
-            throw new ObjetoNoExistenteException("El evento no fue encontrado");
-        Compra compra = Compra.builder().cliente(encontrado).cupon(cupon).evento(evento).localidad(tipo)
-                .idCompra(UUID.randomUUID().toString()).cantidad(cantidad).build();
-        if (!compra.verificarCapacidadEvento())
-            throw new CapacidadException("La cantidad supera la capacidad solicitada");
-        double total = (tipo == TipoLocalidad.GENERAL ? evento.getLocalidadGeneral().getPrecio()
-                : evento.getLocalidadVIP().getPrecio()) * cantidad;
-        redimirCupon(cupon);
-
-        // TODO Falta actualizar la capacidad del evento
-        Factura factura = Factura.builder().compra(compra).fechaCompra(LocalDate.now())
-                .codigoFactura(compra.getIdCompra()).total(total).build();
-
-        if (encontrado.getCompras().size() == 0) {
-            String codigo = UUID.randomUUID().toString();
-            crearCupon(Cupon.builder().cuponRegistro(true).codigo(codigo).estado(Estado.ACTIVO)
-                    .porcentaje(10).build());
-            Correo.enviarCorreoCupon(cliente.getCorreo(), cliente.getNombre(), codigo, "10%");
-        }
-        cliente.agregarCompra(compra);
-        facturas.add(factura);
-
+  public void realizarCompra(Cliente cliente, String idEvento, String codigoCupon, TipoLocalidad tipo, int cantidad)
+        throws Exception {
+    Cliente encontrado = buscarClientePorEmail(cliente.getCorreo());
+    if (encontrado == null)
+        throw new ObjetoNoExistenteException("El cliente no fue encontrado");
+    Evento evento = buscarEventoPorId(idEvento);
+    Cupon cupon = buscarCuponCodigo(codigoCupon);
+    if (evento == null)
+        throw new ObjetoNoExistenteException("El evento no fue encontrado");
+    
+    // Aplicar descuento
+    double precio = (tipo == TipoLocalidad.GENERAL ? evento.getLocalidadGeneral().getPrecio()
+            : evento.getLocalidadVIP().getPrecio()) * cantidad;
+    if (EstrategiaDescuento != null) {
+        precio = estrategiaDescuento.aplicarDescuento(precio);
     }
+    
+    Compra compra = Compra.builder().cliente(encontrado).cupon(cupon).evento(evento).localidad(tipo)
+            .idCompra(UUID.randomUUID().toString()).cantidad(cantidad).build();
+    if (!compra.verificarCapacidadEvento())
+        throw new CapacidadException("La cantidad supera la capacidad solicitada");
+    
+    redimirCupon(cupon);
+
+    // Actualizar la capacidad del evento
+    evento.actualizarCapacidad(tipo, cantidad);
+
+    Factura factura = Factura.builder().compra(compra).fechaCompra(LocalDate.now())
+            .codigoFactura(compra.getIdCompra()).total(precio).build();
+
+    if (encontrado.getCompras().isEmpty()) {
+        String codigoDescuento = UUID.randomUUID().toString();
+        crearCupon(Cupon.builder().cuponRegistro(true).codigo(codigoDescuento).estado(Estado.ACTIVO)
+                .porcentaje(10).build());
+        Correo.enviarCorreoCupon(cliente.getCorreo(), cliente.getNombre(), codigoDescuento, "10%");
+    }
+    cliente.agregarCompra(compra);
+    facturas.add(factura);
+}
+
+    
 
     public double obtenerPorcentajeLocalidad(TipoLocalidad tipoLocalidad) {
         List<Evento> eventos = new ArrayList<>();

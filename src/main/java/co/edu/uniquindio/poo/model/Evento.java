@@ -3,10 +3,10 @@ package co.edu.uniquindio.poo.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
-import java.util.List;
 import lombok.Data;
 @Data
 @AllArgsConstructor
+
 
 public class Evento implements Serializable{
     private String IdEvento;
@@ -19,6 +19,8 @@ public class Evento implements Serializable{
     private String Direccion;
     private Localidad localidadGeneral;
     private Localidad localidadVIP;
+
+    public Evento() {}
 
 }
 
