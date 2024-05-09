@@ -1,5 +1,7 @@
 package co.edu.uniquindio.poo.model;
 
-public interface EstrategiaDescuento {
+import java.io.Serializable;
+
+public interface EstrategiaDescuento extends Serializable {
     double aplicarDescuento(double precio);
 }

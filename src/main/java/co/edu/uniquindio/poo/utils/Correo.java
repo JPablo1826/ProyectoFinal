@@ -3,7 +3,7 @@ package co.edu.uniquindio.poo.utils;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
-import java.util.Random;
+
 
 import co.edu.uniquindio.poo.model.Factura;
 import jakarta.mail.Authenticator;

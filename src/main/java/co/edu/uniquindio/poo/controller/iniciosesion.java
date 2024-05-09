@@ -33,7 +33,7 @@ public class iniciosesion {
             inputdialog.setContentText("Ingresa el codigo: ");
             inputdialog.setHeaderText("codigo");
             inputdialog.showAndWait();
-            ModelFactoryController.getInstance().verificarUsuario(inputdialog.getEditor().getText(), usuariotf.getText());
+            ModelFactoryController.getInstance().verificarUsuario( usuariotf.getText(),inputdialog.getEditor().getText());
         }
         try {
 

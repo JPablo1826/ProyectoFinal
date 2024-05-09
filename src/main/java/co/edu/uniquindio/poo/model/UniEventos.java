@@ -248,7 +248,7 @@ public class UniEventos implements Serializable {
             total = cliente.getEstrategiaDescuento().aplicarDescuento(
                 total);
                                                    
-            porcentajeDCTO = 10;
+            porcentajeDCTO=10;
         }
         Cupon cuponGeneral = buscarCuponCodigo(codigoCupon);
         if(cuponGeneral !=null){

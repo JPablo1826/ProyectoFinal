@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import co.edu.uniquindio.poo.model.UniEventos;
 
 /**
  * JavaFX App

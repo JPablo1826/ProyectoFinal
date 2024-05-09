@@ -3,7 +3,7 @@ package co.edu.uniquindio.poo.model;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
-import lombok.Builder;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
