@@ -19,8 +19,8 @@ public class ModelFactoryController {
 
     public void registrarCliente(String cedula, String nombre, String email, String telefono, String contrasena) throws Exception {
         UniEventos unieventos = Serializacion.obternerDatos();
-        Cliente c = Cliente.builder().contasena(contrasena).nombre(nombre).correo(email).telefono(telefono).ID(cedula).build();
-        System.out.println(c);
+
+        Cliente c = new Cliente(cedula, nombre, telefono, email, contrasena);
         unieventos.registrarNuevoCliente(c);
         Serializacion.guardarDatos(unieventos);
     }

@@ -16,14 +16,11 @@ import co.edu.uniquindio.poo.exceptions.ObjetoExistenteException;
 @ToString
 @EqualsAndHashCode(callSuper=true)
 public class Cliente extends Usuario {
-    public String correo;
-    public String telefono;
     private String contasena;
     public String codigo;
     public final List<Compra> compras = new ArrayList<>();
     private EstrategiaDescuento estrategiaDescuento;
 
-    @Builder
     public Cliente(String ID, String nombre, String telefono, String correo, String contasena) {
         super(ID, nombre, telefono, correo);
         this.contasena = contasena;

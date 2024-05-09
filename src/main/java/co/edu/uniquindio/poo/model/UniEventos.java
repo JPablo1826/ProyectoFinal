@@ -49,7 +49,6 @@ public class UniEventos implements Serializable {
         if (buscarClientePorEmail(cliente.getCorreo()) != null) {
             throw new ObjetoExistenteException("El cliente ya está registrado.");
         }
-        System.out.println(cliente.getCorreo());
         clientes.add(cliente);
         agregarObservador(new ObservadorCorreo(cliente.getCorreo(),cliente.getNombre()));
         Correo.enviarCorreoRegistro(cliente.getCorreo(), cliente.getNombre(), cliente.getCodigo());
@@ -189,8 +188,13 @@ public class UniEventos implements Serializable {
         if (esAdministrador(correo, contrasena)) {
             return Administrador.obtenerInstancia();
         }
+        System.out.println(clientes);
         for (Cliente cliente : clientes) {
-            if (cliente.getCorreo().equals(correo) && cliente.getContasena().equals(contrasena)) {
+            String cor = cliente.getCorreo();
+            String contra =  cliente.getContasena();
+            System.out.println("Correo cliente "+cor);
+            System.out.println("Contra cliente "+contra);
+            if (cor.equals(correo) &&contra.equals(contrasena)) {
                 if (!cliente.estaVericado())
                     throw new NoVerificadoException("El cliente no esta verificado");
                 return cliente;
@@ -222,37 +226,38 @@ public class UniEventos implements Serializable {
         if (encontrado == null)
             throw new ObjetoNoExistenteException("El cliente no fue encontrado");
         Evento evento = buscarEventoPorId(idEvento);
-        Cupon cupon = buscarCuponCodigo(codigoCupon);
         if (evento == null)
             throw new ObjetoNoExistenteException("El evento no fue encontrado");
-        Compra compra = Compra.builder().cliente(encontrado).cupon(cupon).evento(evento).localidad(tipo)
+        Compra compra = Compra.builder().cliente(encontrado).evento(evento).localidad(tipo)
                 .idCompra(UUID.randomUUID().toString()).cantidad(cantidad).build();
         if (!compra.verificarCapacidadEvento())
             throw new CapacidadException("La cantidad supera la capacidad solicitada");
         double total = (tipo == TipoLocalidad.GENERAL ? evento.getLocalidadGeneral().getPrecio()
                 : evento.getLocalidadVIP().getPrecio()) * cantidad;
-        redimirCupon(cupon);
-
         // TODO Falta actualizar la capacidad del evento
         Factura factura = Factura.builder().compra(compra).fechaCompra(LocalDate.now())
                 .codigoFactura(compra.getIdCompra()).total(total).build();
-
+        double porcentajeDCTO = 0;
         if (encontrado.getCompras().size() == 0) {
             String codigo = UUID.randomUUID().toString();
             crearCupon(Cupon.builder().cuponRegistro(true).codigo(codigo).estado(Estado.ACTIVO)
                     .porcentaje(10).build());
-            // First, apply the discount strategy to the client (assuming this method does
-            // something relevant that doesn't directly affect the email sending)
+           
             cliente.setEstrategiaDescuento(new DescuentoPrimerCompra());
 
-            // Assuming you have a method or a way to get the coupon code and discount
-            // percentage after applying the discount strategy
-                                                     // applying the discount strategy
-            String porcentajeDescuento = "10%"; // This should be replaced with the actual discount percentage
-
-            // Now, send the email with the correct parameters
-            Correo.enviarCorreoCupon(cliente.getCorreo(), cliente.getNombre(), codigoCupon, porcentajeDescuento);
+            total = cliente.getEstrategiaDescuento().aplicarDescuento(
+                total);
+                                                   
+            porcentajeDCTO = 10;
         }
+        Cupon cuponGeneral = buscarCuponCodigo(codigoCupon);
+        if(cuponGeneral !=null){
+            cliente.setEstrategiaDescuento(new DescuentoCupon(cuponGeneral));
+            
+            total = cliente.getEstrategiaDescuento().aplicarDescuento(total);
+        }
+        compra.setCupon(cuponGeneral);
+            Correo.enviarCorreoFactura(factura);
         cliente.agregarCompra(compra);
         facturas.add(factura);
     }
