@@ -17,4 +17,8 @@ public enum TipoLocalidad {
     private TipoLocalidad(String nombre) {
         this.nombre = nombre;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
 }

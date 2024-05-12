@@ -1,8 +1,6 @@
 package co.edu.uniquindio.poo.model;
 
-import java.io.Serializable;
-
-public class TeatroFactory implements EventoFactory, Serializable {
+public class TeatroFactory implements EventoFactory {
     @Override
     public Evento crearEvento() {
         return new Evento();

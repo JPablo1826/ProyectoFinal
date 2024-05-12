@@ -55,7 +55,7 @@ public class UniEventos implements Serializable {
 
     }
 
-    private void notificarNuevoCliente(Cliente cliente) {
+    public void notificarNuevoCliente(Cliente cliente) {
         String mensaje = "¡Nuevo evento disponible!";
         for (Observador observador : observadores) {
             observador.actualizar(mensaje);
@@ -237,7 +237,7 @@ public class UniEventos implements Serializable {
         // TODO Falta actualizar la capacidad del evento
         Factura factura = Factura.builder().compra(compra).fechaCompra(LocalDate.now())
                 .codigoFactura(compra.getIdCompra()).total(total).build();
-        double porcentajeDCTO = 0;
+        boolean dctoPrimera = false;
         if (encontrado.getCompras().size() == 0) {
             String codigo = UUID.randomUUID().toString();
             crearCupon(Cupon.builder().cuponRegistro(true).codigo(codigo).estado(Estado.ACTIVO)
@@ -245,13 +245,12 @@ public class UniEventos implements Serializable {
            
             cliente.setEstrategiaDescuento(new DescuentoPrimerCompra());
 
-            total = cliente.getEstrategiaDescuento().aplicarDescuento(
-                total);
-                                                   
-            porcentajeDCTO=10;
+            total = cliente.getEstrategiaDescuento().aplicarDescuento(total);
         }
         Cupon cuponGeneral = buscarCuponCodigo(codigoCupon);
+        String porcentaje = "0%";
         if(cuponGeneral !=null){
+            if(dctoPrimera)
             cliente.setEstrategiaDescuento(new DescuentoCupon(cuponGeneral));
             
             total = cliente.getEstrategiaDescuento().aplicarDescuento(total);

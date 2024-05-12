@@ -1,8 +1,6 @@
 package co.edu.uniquindio.poo.model;
 
-import java.io.Serializable;
-
-public class DescuentoCupon implements EstrategiaDescuento,Serializable {
+public class DescuentoCupon implements EstrategiaDescuento {
     private final double PORCENTAJE_DESCUENTO;
 
     public DescuentoCupon(Cupon cuponGeneral) {

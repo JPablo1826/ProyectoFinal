@@ -1,8 +1,6 @@
 package co.edu.uniquindio.poo.model;
 
-import java.io.Serializable;
-
-public class ConciertoFactory implements EventoFactory,Serializable {
+public class ConciertoFactory implements EventoFactory {
 
     
     @Override

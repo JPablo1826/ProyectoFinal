@@ -1,8 +1,6 @@
 package co.edu.uniquindio.poo.model;
 
-import java.io.Serializable;
-
-public class DescuentoPrimerCompra implements EstrategiaDescuento, Serializable {
+public class DescuentoPrimerCompra implements EstrategiaDescuento{
     private static final double PORCENTAJE_DESCUENTO = 0.10; // 10%
 
     @Override

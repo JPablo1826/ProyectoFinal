@@ -1,11 +1,18 @@
 package co.edu.uniquindio.poo.utils;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Properties;
-
-
-import co.edu.uniquindio.poo.model.Factura;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import co.edu.uniquindio.poo.model.*;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
@@ -18,14 +25,68 @@ import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
+import java.util.ArrayList;
 
 public class Correo {
 
 	public static void main(String[] args) throws AddressException, MessagingException, Exception {
-		enviarCorreoRegistro("emilibermudez6@gmail.com", "Emili","1122323");
+
+		Evento evento = Evento.builder()
+				.IdEvento("IdEvento")
+				.NombreEvento("NombreEvento")
+				.Ciudad("Ciudad")
+				.Descripcion("Descripcion")
+				.tipoEvento(TipoEvento.TEATRO)
+				.imagen("imagen.jpg")
+				.Fecha(LocalDate.now())
+				.Direccion("Direccion")
+				.localidadGeneral(
+						Localidad.builder().precio(100.00).tipo(TipoLocalidad.GENERAL).capacidad(500).build())
+				.localidadVIP(Localidad.builder().precio(150.00).tipo(TipoLocalidad.VIP).capacidad(100).build())
+				.build();
+
+		// Creación de un objeto Cliente con Builder
+		Cliente cliente = Cliente.builder()
+				.ID("0132824")
+				.nombre("Sarita")
+				.telefono("3123456")
+				.correo("saritalondonop@gmail.com")
+				.contasena("1234")
+				.build();
+		Cliente cliente2 = Cliente.builder()
+				.ID("0132824")
+				.nombre("Amadour")
+				.telefono("3123456")
+				.correo("arroa03@gmail.com")
+				.contasena("1234")
+				.build();
+
+		// Creación de un objeto Compra con Builder
+		Compra compra = Compra.builder()
+				.idCompra("idCompra")
+				.cliente(cliente)
+				.evento(evento)
+				.cantidad(1)
+				.localidad(TipoLocalidad.VIP) // Asumiendo que queremos la localidad VIP del evento
+				.build();
+
+		// Creación de una Factura con Builder
+		Factura factura = Factura.builder()
+				.compra(compra)
+				.total(100.00)
+				.fechaCompra(LocalDate.now())
+				.codigoFactura("codigoFactura")
+				.build();
+				ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+				clientes.add(cliente);
+				clientes.add(cliente2);
+				enviarCorreoNuevoEvento(clientes, evento);
+
+		// enviarCorreoFactura(factura);
+
 	}
 
-	public static void sendEmail(String toAddress, String subject, MimeBodyPart... messageBodyParts)
+	public static void sendEmail(String[] toAddress, String subject, MimeBodyPart... messageBodyParts)
 			throws AddressException, MessagingException, IOException {
 
 		final String username = "unieventosuq@gmail.com";
@@ -34,7 +95,10 @@ public class Correo {
 		Message msg = new MimeMessage(getCreateSession(username, password));
 
 		msg.setFrom(new InternetAddress(username));
-		InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
+		InternetAddress[] toAddresses = new InternetAddress[toAddress.length];
+		for (int i = 0; i < toAddresses.length; i++) {
+			toAddresses[i] = new InternetAddress(toAddress[i]);
+		}
 		msg.setRecipients(Message.RecipientType.TO, toAddresses);
 		msg.setSubject(subject);
 		msg.setSentDate(new Date());
@@ -49,16 +113,18 @@ public class Correo {
 		Transport.send(msg, username, password);
 	}
 
-	public static void enviarCorreoCupon(String mail, String nombre, String codigo, String tipoCupon) throws Exception{
+	public static void enviarCorreoCupon(String mail, String nombre, String codigo, String tipoCupon) throws Exception {
 		MimeBodyPart messageBodyPart = new MimeBodyPart();
 		messageBodyPart.setContent(generarMensajeCupon(nombre, tipoCupon, codigo).toString(), "text/html");
-		sendEmail(mail, "Redime tu Cupón | Unieventos", messageBodyPart);
+		sendEmail(new String[] { mail }, "Redime tu Cupón | Unieventos", messageBodyPart);
 	}
-	public static void enviarCorreoRegistro(String mail, String nombre, String codigo) throws Exception{
+
+	public static void enviarCorreoRegistro(String mail, String nombre, String codigo) throws Exception {
 		MimeBodyPart messageBodyPart = new MimeBodyPart();
 		messageBodyPart.setContent(generarMensajeRegistro(nombre, codigo).toString(), "text/html");
-		sendEmail(mail, "verifica tu cuenta", messageBodyPart);
+		sendEmail(new String[] { mail }, "verifica tu cuenta", messageBodyPart);
 	}
+
 	private static Object generarMensajeRegistro(String nombre, String codigo) {
 		StringBuilder sbMsg1Solicitud = new StringBuilder();
 		sbMsg1Solicitud.append("<p>");
@@ -136,11 +202,62 @@ public class Correo {
 		prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
 		return prop;
 	}
-	public static void enviarCorreoFactura( Factura factura) throws Exception{
+
+	public static void enviarCorreoFactura(Factura factura) throws Exception {
 		MimeBodyPart messageBodyPart = new MimeBodyPart();
 		messageBodyPart.setContent(generarMensajeFactura(factura).toString(), "text/html");
-		sendEmail(factura.getCompra().getCliente().getCorreo(),"Detalles de su factura", messageBodyPart);
+		MimeBodyPart attachmentPart = new MimeBodyPart();
+		File attachment = new File(generarQr(factura));
+		attachmentPart.attachFile(attachment);
+		sendEmail(new String[] { factura.getCompra().getCliente().getCorreo() }, "Detalles de su factura",
+				messageBodyPart,
+				attachmentPart);
 	}
+
+	private static String generarQr(Factura factura) throws Exception {
+		String formato = "BEGIN:VEVENT\nSUMMARY:%s\nDTSTART;VALUE=DATE:%s\nDTEND;VALUE=DATE:%s\nLOCATION:%s\nDESCRIPTION:Codigo %s\\nPrecio %s\\nCantidad %s\\nFecha de Compra %s\nEND:VEVENT";
+		String data = String.format(formato,
+				factura.getCompra().getEvento().getNombreEvento(),
+				factura.getCompra().getEvento().getFecha().format(DateTimeFormatter.ofPattern("yyyyMMdd")),
+				factura.getCompra().getEvento().getFecha().format(DateTimeFormatter.ofPattern("yyyyMMdd")),
+				factura.getCompra().getLocalidad().getNombre(),
+				factura.getCompra().getIdCompra(),
+				String.format("%.2f", factura.getTotal()),
+				factura.getCompra().getCantidad() + "",
+				factura.getCompra().getEvento().getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+
+		String path = System.getProperty("user.dir") + "/imagen.jpg";
+
+		BitMatrix matrix = new MultiFormatWriter()
+				.encode(data, BarcodeFormat.QR_CODE, 500, 500);
+		Path pathNio = Paths.get(path);
+		MatrixToImageWriter.writeToPath(matrix, "jpg", pathNio);
+		return path;
+	}
+
+	private static String generarQrEvento(Evento evento) throws Exception {
+		String formato = "BEGIN:VEVENT\nSUMMARY:%s\nDTSTART;VALUE=DATE:%s\nDTEND;VALUE=DATE:%s\nLOCATION:%s\nDESCRIPTION:Descripción %s\\nID %s\\nTipo de Evento %s\\nDirección %s\\nPrecio VIP %s\\nPrecio General %s\nEND:VEVENT";
+		String data = String.format(formato,
+				evento.getNombreEvento(),
+				evento.getFecha().format(DateTimeFormatter.ofPattern("yyyyMMdd")),
+				evento.getFecha().format(DateTimeFormatter.ofPattern("yyyyMMdd")),
+				evento.getCiudad(),
+				evento.getDescripcion(),
+                evento.getIdEvento(),
+				evento.getTipoEvento().toString(),
+				evento.getDireccion(),
+                String.format("%.2f", evento.getLocalidadVIP().getPrecio()),
+                String.format("%.2f", evento.getLocalidadGeneral().getPrecio()));
+
+		String path = System.getProperty("user.dir") + "/imagen.jpg";
+
+		BitMatrix matrix = new MultiFormatWriter()
+				.encode(data, BarcodeFormat.QR_CODE, 500, 500);
+		Path pathNio = Paths.get(path);
+		MatrixToImageWriter.writeToPath(matrix, "jpg", pathNio);
+		return path;
+	}
+
 	private static Object generarMensajeFactura(Factura factura) {
 		StringBuilder sbMsg1Solicitud = new StringBuilder();
 		sbMsg1Solicitud.append("<p>");
@@ -148,11 +265,39 @@ public class Correo {
 		sbMsg1Solicitud.append("<b>");
 		sbMsg1Solicitud.append("</b>");
 		sbMsg1Solicitud.append("<br><br>");
-		sbMsg1Solicitud.append("Esta es la factura de la compra realizada");
-		sbMsg1Solicitud.append(factura);
-		sbMsg1Solicitud.append("<br><br>");
-		sbMsg1Solicitud.append("Gracias por confiar en unieventos");
+		sbMsg1Solicitud.append(
+				"Esta es la factura de la compra realizada , por favor escanee el codigo Qr adjunto para verla");
 		sbMsg1Solicitud.append("</p>");
+
+		return sbMsg1Solicitud;
+	}
+
+	public static void enviarCorreoNuevoEvento(ArrayList<Cliente> listaClientes, Evento evento) throws Exception {
+		MimeBodyPart messageBodyPart = new MimeBodyPart();
+		messageBodyPart.setContent(generarMensajeNuevoEvento(listaClientes, evento).toString(), "text/html");
+		MimeBodyPart attachmentPart = new MimeBodyPart();
+		File attachment = new File(generarQrEvento(evento));
+		attachmentPart.attachFile(attachment);
+		int size = listaClientes.size();
+		String mails[] = new String[size];
+		for (int i = 0; i < size; i++) {
+            mails[i] = listaClientes.get(i).getCorreo();
+        }
+		sendEmail(mails, "Detalles del nuevo evento", messageBodyPart,
+				attachmentPart);
+	}
+
+	private static Object generarMensajeNuevoEvento(ArrayList<Cliente> listaClientes, Evento evento) {
+		StringBuilder sbMsg1Solicitud = new StringBuilder();
+		sbMsg1Solicitud.append("<p>");
+		sbMsg1Solicitud.append("Estimado/a, ");
+		sbMsg1Solicitud.append("<b>");
+		sbMsg1Solicitud.append("</b>");
+		sbMsg1Solicitud.append("<br><br>");
+		sbMsg1Solicitud.append(
+				"Estamos felices de que hagas parte de este nuevo evento que tenemos para ti, te va a encantar no esperes mas. Compra ya tu boleta!");
+		sbMsg1Solicitud.append("</p>");
+
 		return sbMsg1Solicitud;
 	}
 }

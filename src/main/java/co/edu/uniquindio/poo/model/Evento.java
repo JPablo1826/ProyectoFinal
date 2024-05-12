@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Builder;
 @Data
 @AllArgsConstructor
 
 
+@Builder
 public class Evento implements Serializable{
     private String IdEvento;
     private String NombreEvento;
