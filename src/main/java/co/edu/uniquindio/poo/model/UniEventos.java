@@ -21,6 +21,7 @@ import lombok.Getter;
 
 @Getter
 public class UniEventos implements Serializable {
+    private static final long serialVersionUID = 5489636150873788781L;
     private List<Observador> observadores = new ArrayList<>();
     private List<Cliente> clientes = new ArrayList<>();
     private List<Evento> eventos = new ArrayList<>();
@@ -44,13 +45,21 @@ public class UniEventos implements Serializable {
         return codigo;
     }
 
+    public List<String> obtenerCiudades() {
+        ArrayList<String> ciudades = new ArrayList<>();
+        ciudades.add("Armenia");
+        ciudades.add("Bogota");
+        ciudades.add("Medellin");
+        return ciudades;
+    }
+
     public void registrarNuevoCliente(Cliente cliente) throws Exception {
         cliente.setCodigo(generarCodigo());
         if (buscarClientePorEmail(cliente.getCorreo()) != null) {
             throw new ObjetoExistenteException("El cliente ya está registrado.");
         }
         clientes.add(cliente);
-        agregarObservador(new ObservadorCorreo(cliente.getCorreo(),cliente.getNombre()));
+        agregarObservador(new ObservadorCorreo(cliente.getCorreo(), cliente.getNombre()));
         Correo.enviarCorreoRegistro(cliente.getCorreo(), cliente.getNombre(), cliente.getCodigo());
 
     }
@@ -92,7 +101,14 @@ public class UniEventos implements Serializable {
         eventos.add(evento);
     }
 
-    public Evento crearEvento(String tipoEvento) throws ObjetoNoExistenteException {
+    public void crearEvento(Evento evento) throws  ObjetoExistenteException {
+        evento.setIdEvento(UUID.randomUUID().toString());
+        if (buscarEventoPorIdEvento(evento.getIdEvento())) {
+            throw new ObjetoExistenteException("El evento ya se encuentra creado");
+        }
+        eventos.add(evento);
+    }
+        public Evento crearEvento(String tipoEvento) throws ObjetoNoExistenteException {
         switch (tipoEvento) {
             case "teatro":
                 return new TeatroFactory().crearEvento();
@@ -191,10 +207,10 @@ public class UniEventos implements Serializable {
         System.out.println(clientes);
         for (Cliente cliente : clientes) {
             String cor = cliente.getCorreo();
-            String contra =  cliente.getContasena();
-            System.out.println("Correo cliente "+cor);
-            System.out.println("Contra cliente "+contra);
-            if (cor.equals(correo) &&contra.equals(contrasena)) {
+            String contra = cliente.getContasena();
+            System.out.println("Correo cliente " + cor);
+            System.out.println("Contra cliente " + contra);
+            if (cor.equals(correo) && contra.equals(contrasena)) {
                 if (!cliente.estaVericado())
                     throw new NoVerificadoException("El cliente no esta verificado");
                 return cliente;
@@ -237,45 +253,49 @@ public class UniEventos implements Serializable {
         // TODO Falta actualizar la capacidad del evento
         Factura factura = Factura.builder().compra(compra).fechaCompra(LocalDate.now())
                 .codigoFactura(compra.getIdCompra()).total(total).build();
+        compra.setFactura(factura);
         boolean dctoPrimera = false;
         if (encontrado.getCompras().size() == 0) {
             String codigo = UUID.randomUUID().toString();
             crearCupon(Cupon.builder().cuponRegistro(true).codigo(codigo).estado(Estado.ACTIVO)
                     .porcentaje(10).build());
-           
+
             cliente.setEstrategiaDescuento(new DescuentoPrimerCompra());
 
             total = cliente.getEstrategiaDescuento().aplicarDescuento(total);
         }
         Cupon cuponGeneral = buscarCuponCodigo(codigoCupon);
         String porcentaje = "0%";
-        if(cuponGeneral !=null){
-            if(dctoPrimera)
-            cliente.setEstrategiaDescuento(new DescuentoCupon(cuponGeneral));
-            
+        if (cuponGeneral != null) {
+            if (dctoPrimera)
+                cliente.setEstrategiaDescuento(new DescuentoCupon(cuponGeneral));
+
             total = cliente.getEstrategiaDescuento().aplicarDescuento(total);
         }
         compra.setCupon(cuponGeneral);
-            Correo.enviarCorreoFactura(factura);
+        Correo.enviarCorreoFactura(factura);
         cliente.agregarCompra(compra);
         facturas.add(factura);
     }
 
-    public double obtenerPorcentajeLocalidad(TipoLocalidad tipoLocalidad) {
-        List<Evento> eventos = new ArrayList<>();
-        List<Integer> ocupacion = new ArrayList<>();
+    public double obtenerPorcentajeLocalidad(TipoLocalidad tipoLocalidad, Evento evento) {
+        double ocupacion = 0;
         for (Factura factura : facturas) {
             if (factura.getCompra().getLocalidad() == tipoLocalidad) {
-                int indice = eventos.indexOf(factura.getCompra().getEvento());
-                if (indice != -1) {
-                    ocupacion.set(indice, ocupacion.get(indice) + factura.getCompra().getCantidad());
-                } else {
-                    eventos.add(factura.getCompra().getEvento());
-                    ocupacion.add(factura.getCompra().getCantidad());
+                if (factura.getCompra().getEvento().getIdEvento().equals(evento.getIdEvento())) {
+                    ocupacion += factura.getCompra().getCantidad();
                 }
+
             }
         }
-        return ocupacion.stream().mapToInt(e -> e).average().orElse(0);
+        double resultado;
+        if (tipoLocalidad == TipoLocalidad.GENERAL) {
+
+            resultado = ocupacion / evento.getLocalidadGeneral().getCapacidad();
+        } else {
+            resultado = ocupacion / evento.getLocalidadVIP().getCapacidad();
+        }
+        return resultado;
     }
 
     public double obtenerTotalGanado() {
@@ -354,6 +374,29 @@ public class UniEventos implements Serializable {
             }
         }
 
+    }
+
+    public ArrayList<Compra> obtenerCompras(Cliente cliente) {
+        ArrayList<Compra> compras = new ArrayList<>();
+        for (Factura factura : facturas) {
+            if (factura.getCompra().getCliente().getCorreo().equals(cliente.getCorreo())) {
+                compras.add(factura.getCompra());
+            }
+        }
+        return compras;
+
+    }
+
+    public List<Evento> listarEventosCiudad(String ciudad) {
+        return eventos.stream().filter((evento) -> evento.getCiudad().equals(ciudad)).toList();
+    }
+
+    public double obtenerPorcentajeVIP(Evento newValue) {
+        return obtenerPorcentajeLocalidad(TipoLocalidad.VIP, newValue);
+    }
+
+    public double obtenerPorcentajeGeneral(Evento newValue) {
+        return obtenerPorcentajeLocalidad(TipoLocalidad.GENERAL, newValue);
     }
 
 }

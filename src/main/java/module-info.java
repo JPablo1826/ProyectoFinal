@@ -6,6 +6,7 @@ open module co.edu.uniquindio.poo {
     requires transitive jakarta.mail;
     requires com.google.zxing;
 	requires com.google.zxing.javase;
+    requires javafx.base;
 
     exports co.edu.uniquindio.poo to javafx.fxml;
 }

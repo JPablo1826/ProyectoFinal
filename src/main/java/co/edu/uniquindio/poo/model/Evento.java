@@ -13,11 +13,11 @@ import lombok.Builder;
 public class Evento implements Serializable{
     private String IdEvento;
     private String NombreEvento;
-    private String Ciudad;
+    private String ciudad;
     private String Descripcion;
     private TipoEvento tipoEvento;
     private String imagen; 
-    private LocalDate Fecha;
+    private LocalDate fecha;
     private String Direccion;
     private Localidad localidadGeneral;
     private Localidad localidadVIP;

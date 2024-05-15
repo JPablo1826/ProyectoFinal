@@ -13,7 +13,14 @@ public enum TipoLocalidad {
         }
         return null;
     }
-
+    public static String[] getValueStrings(){
+        var values = TipoLocalidad.values();
+        String[] strings = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+            strings[i] = values[i].getNombre();
+        }
+        return strings;
+    }
     private TipoLocalidad(String nombre) {
         this.nombre = nombre;
     }

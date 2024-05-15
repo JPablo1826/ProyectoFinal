@@ -18,6 +18,7 @@ public class Compra implements Serializable {
     private int cantidad;
     private TipoLocalidad localidad;
     private Cupon cupon;
+    private Factura factura;
 
     public boolean verificarCapacidadEvento() {
         if (localidad == TipoLocalidad.GENERAL)
