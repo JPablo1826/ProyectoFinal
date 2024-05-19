@@ -124,13 +124,8 @@ public class menucliente implements Initializable{
     @FXML
     void guardarresenaevent(ActionEvent event) {
         Cliente cliente = (Cliente) DatosguardadosController.getInstance().getUsuarioActual().getValue();
-        try {
-            ModelFactoryController.getInstance().guardarResena(cliente, propEstrella.getValue(),  descripcionresenata.getText());
-            new Alert(AlertType.CONFIRMATION, "Su resena fue guardada").show();
-        } catch (ObjetoNoExistenteException e) {
-            new Alert(AlertType.WARNING, e.getMessage()).show();
-        }
-        
+        ModelFactoryController.getInstance().guardarResena(cliente, propEstrella.getValue(), descripcionresenata.getText());
+        new Alert(AlertType.CONFIRMATION, "Su resena fue guardada").show();
     }
 
     @Override

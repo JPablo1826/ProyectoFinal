@@ -10,6 +10,7 @@ import co.edu.uniquindio.poo.model.Estado;
 import co.edu.uniquindio.poo.model.Evento;
 import co.edu.uniquindio.poo.model.Localidad;
 import co.edu.uniquindio.poo.model.NoVerificadoException;
+import co.edu.uniquindio.poo.model.Resena;
 import co.edu.uniquindio.poo.model.TipoEvento;
 import co.edu.uniquindio.poo.model.TipoLocalidad;
 import co.edu.uniquindio.poo.model.UniEventos;
@@ -130,9 +131,9 @@ public class ModelFactoryController {
     }
 
     public void guardarResena(Cliente cliente, Integer value, String text) {
-        cliente.setResena(new Resena(value, text));
+        cliente.setResena(new Resena(text, value));
         UniEventos unieventos = Serializacion.obternerDatos();
-        unieventos.guardarResena(cliente);
+        unieventos.actualizarCliente(cliente);
         Serializacion.guardarDatos(unieventos);
     }
 

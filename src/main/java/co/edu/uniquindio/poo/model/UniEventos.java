@@ -379,6 +379,7 @@ public class UniEventos implements Serializable {
                 c.setContasena(cliente.getContasena());
                 c.setTelefono(cliente.getTelefono());
                 c.setCodigo(cliente.getCodigo());
+                c.setResena(cliente.getResena());
 
                 return;
             }
@@ -400,5 +401,6 @@ public class UniEventos implements Serializable {
     public List<Evento> listarEventosCiudad(String ciudad) {
         return eventos.stream().filter((evento) -> evento.getCiudad().equals(ciudad)).toList();
     }
+
 
 }
