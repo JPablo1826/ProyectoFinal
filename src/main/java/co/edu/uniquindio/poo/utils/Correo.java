@@ -34,11 +34,11 @@ public class Correo {
 		Evento evento = Evento.builder()
 				.IdEvento("IdEvento")
 				.NombreEvento("NombreEvento")
-				.Ciudad("Ciudad")
+				.ciudad("Ciudad")
 				.Descripcion("Descripcion")
 				.tipoEvento(TipoEvento.TEATRO)
 				.imagen("imagen.jpg")
-				.Fecha(LocalDate.now())
+				.fecha(LocalDate.now())
 				.Direccion("Direccion")
 				.localidadGeneral(
 						Localidad.builder().precio(100.00).tipo(TipoLocalidad.GENERAL).capacidad(500).build())

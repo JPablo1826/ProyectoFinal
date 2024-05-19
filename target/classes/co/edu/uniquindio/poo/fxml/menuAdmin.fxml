@@ -9,18 +9,20 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="579.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.controller.menuadmin">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="527.0" prefWidth="579.0" style="-fx-background-color: FBF3F2;" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.controller.menuadmin">
   <tabs>
-    <Tab text="Gestionar Eventos">
+    <Tab style="-fx-background-color: A6C5AA;" text="Gestionar Eventos">
       <content>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="571.0">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="497.0" prefWidth="571.0" style="-fx-background-color: FBF3F2;">
                <children>
                   <ComboBox fx:id="ciudadcb" editable="true" layoutX="75.0" layoutY="28.0" prefWidth="150.0" />
-                  <Label layoutX="37.0" layoutY="32.0" text="Ciudad" />
-                  <TableView fx:id="tablaciudad" layoutX="37.0" layoutY="102.0" prefHeight="200.0" prefWidth="469.0">
+                  <Label layoutX="18.0" layoutY="32.0" text="Ciudad" />
+                  <TableView fx:id="tablaciudad" layoutX="68.0" layoutY="90.0" prefHeight="200.0" prefWidth="448.0" style="-fx-background-color: EAF8EB;">
                      <columns>
                         <TableColumn fx:id="nombregescol" prefWidth="75.0" text="Nombre" />
                         <TableColumn fx:id="tipogescol" prefWidth="75.0" text="Tipo" />
@@ -30,55 +32,61 @@
                         <TableColumn fx:id="direcciongescol" prefWidth="75.0" text="Direccion" />
                      </columns>
                   </TableView>
-                  <Button layoutX="253.0" layoutY="28.0" mnemonicParsing="false" onAction="#crearevent" text="Crear" />
-                  <Button layoutX="323.0" layoutY="28.0" mnemonicParsing="false" onAction="#modificarevent" text="Modificar" />
-                  <Button layoutX="422.0" layoutY="28.0" mnemonicParsing="false" onAction="#eliminarevent" text="Eliminar" />
-                  <TextField fx:id="nombretf" layoutX="104.0" layoutY="307.0" />
+                  <Button layoutX="264.0" layoutY="28.0" mnemonicParsing="false" onAction="#crearevent" style="-fx-background-color: #A5C6A8;" text="Crear" />
+                  <Button layoutX="353.0" layoutY="28.0" mnemonicParsing="false" onAction="#modificarevent" style="-fx-background-color: A5C6A8;" text="Modificar" />
+                  <Button layoutX="462.0" layoutY="28.0" mnemonicParsing="false" onAction="#eliminarevent" style="-fx-background-color: A5C6A8;" text="Eliminar" />
+                  <TextField fx:id="nombretf" layoutX="123.0" layoutY="307.0" />
                   <Label layoutX="37.0" layoutY="311.0" text="Nombre" />
-                  <Label layoutX="44.0" layoutY="345.0" text="Tipo" />
-                  <ComboBox fx:id="tipocb" editable="true" layoutX="104.0" layoutY="341.0" prefWidth="150.0" />
+                  <Label layoutX="37.0" layoutY="345.0" text="Tipo" />
+                  <ComboBox fx:id="tipocb" editable="true" layoutX="122.0" layoutY="341.0" prefWidth="150.0" />
                   <Label layoutX="289.0" layoutY="311.0" text="Fecha" />
-                  <TextField fx:id="direcciontf" layoutX="356.0" layoutY="341.0" />
+                  <TextField fx:id="direcciontf" layoutX="356.0" layoutY="341.0" prefHeight="26.0" prefWidth="174.0" />
                   <Label layoutX="289.0" layoutY="345.0" text="Direccion" />
-                  <TextField fx:id="descripciontf" layoutX="109.0" layoutY="380.0" />
-                  <Label layoutX="42.0" layoutY="384.0" text="Descripcion" />
-                  <TextField fx:id="precioviptf" layoutX="104.0" layoutY="413.0" />
-                  <Label layoutX="37.0" layoutY="417.0" text="Precio VIP" />
+                  <TextField fx:id="descripciontf" layoutX="123.0" layoutY="380.0" prefHeight="26.0" prefWidth="410.0" />
+                  <Label layoutX="32.0" layoutY="384.0" text="Descripcion" />
+                  <TextField fx:id="precioviptf" layoutX="123.0" layoutY="413.0" />
+                  <Label layoutX="32.0" layoutY="417.0" text="Precio VIP" />
                   <DatePicker fx:id="fechadp" layoutX="356.0" layoutY="307.0" />
-                  <TextField fx:id="capacidadviptf" layoutX="363.0" layoutY="413.0" />
+                  <TextField fx:id="capacidadviptf" layoutX="380.0" layoutY="413.0" />
                   <Label layoutX="282.0" layoutY="417.0" text="Capacidad VIP" />
                   <TextField fx:id="preciogeneraltf" layoutX="123.0" layoutY="448.0" />
-                  <Label layoutX="41.0" layoutY="452.0" text="Precio General" />
-                  <TextField fx:id="capacidadgeneraltf" layoutX="399.0" layoutY="448.0" />
-                  <Label layoutX="286.0" layoutY="452.0" text="Capacidad General" />
+                  <Label layoutX="25.0" layoutY="452.0" text="Precio General" />
+                  <TextField fx:id="capacidadgeneraltf" layoutX="380.0" layoutY="448.0" />
+                  <Label layoutX="278.0" layoutY="452.0" text="Capacidad General" />
                </children>
             </AnchorPane>
       </content>
     </Tab>
-    <Tab text="Crear Cupones">
+    <Tab style="-fx-background-color: A6C5AA;" text="Crear Cupones">
       <content>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: FBF3F2;">
                <children>
                   <Label layoutX="112.0" layoutY="93.0" />
-                  <TextField fx:id="numentradas" layoutX="195.0" layoutY="98.0" />
+                  <TextField fx:id="porcentaje" layoutX="195.0" layoutY="98.0" />
                   <Label layoutX="112.0" layoutY="102.0" text="Porcentaje" />
                   <Label layoutX="223.0" layoutY="43.0" text="Cupones Especiales">
                      <font>
-                        <Font size="18.0" />
+                        <Font name="Segoe UI Black" size="18.0" />
                      </font>
                   </Label>
-                  <Button layoutX="223.0" layoutY="200.0" mnemonicParsing="false" onAction="#cancelarcompraevent" text="Agregar" />
-                  <TextField fx:id="cupon" layoutX="195.0" layoutY="149.0" />
+                  <Button layoutX="223.0" layoutY="200.0" mnemonicParsing="false" onAction="#agregarcuponevent"      
+                           style="-fx-background-color: #A5C6A8;" text="Agregar" />
+                  <TextField fx:id="codigo" layoutX="195.0" layoutY="149.0" />
                   <Label layoutX="112.0" layoutY="144.0" text="Codigo" />
+                  <ImageView fitHeight="46.0" fitWidth="46.0" layoutX="168.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images-removebg-preview.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
       </content>
     </Tab>
-      <Tab text="Datos Estadisticos">
+      <Tab style="-fx-background-color: A6C5AA;" text="Datos Estadisticos">
         <content>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
                <children>
-                  <TableView fx:id="tablaEstadisticas" layoutX="134.0" layoutY="94.0" prefHeight="200.0" prefWidth="376.0">
+                  <TableView fx:id="tablaEstadisticas" layoutX="112.0" layoutY="146.0" prefHeight="200.0" prefWidth="376.0">
                      <columns>
                         <TableColumn fx:id="nombreestcol" prefWidth="75.0" text="Nombre" />
                         <TableColumn fx:id="tipoestcol" prefWidth="75.0" text="Tipo" />
@@ -86,36 +94,46 @@
                         <TableColumn fx:id="totalganadoestcol" prefWidth="93.0" text="Total ganado" />
                      </columns>
                   </TableView>
-                  <Label layoutX="259.0" layoutY="14.0" text="Estadisticas">
+                  <Label layoutX="231.0" layoutY="44.0" text="Estadisticas">
                      <font>
-                        <Font size="20.0" />
+                        <Font name="Segoe UI Black" size="20.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="localidadcb" layoutX="285.0" layoutY="53.0" prefWidth="150.0" />
-                  <Label layoutX="176.0" layoutY="57.0" text="Localidad" />
+                  <ComboBox fx:id="localidadcb" layoutX="274.0" layoutY="95.0" prefWidth="150.0" style="-fx-background-color: A5C6A8;" />
+                  <Label layoutX="181.0" layoutY="99.0" text="Localidad" />
+                  <ImageView fitHeight="40.0" fitWidth="41.0" layoutX="181.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@36170-removebg-preview.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
         </content>
       </Tab>
-      <Tab fx:id="c" text="Listar Eventos">
+      <Tab fx:id="c" style="-fx-background-color: A6C5AA;" text="Listar Eventos">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: FBF3F2;">
                <children>
                   <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
                      <children>
-                        <TableView fx:id="tablaEstadisticas1" layoutX="134.0" layoutY="94.0" prefHeight="200.0" prefWidth="376.0">
+                        <TableView fx:id="tablaEstadisticas1" layoutX="111.0" layoutY="140.0" prefHeight="200.0" prefWidth="376.0">
                            <columns>
                               <TableColumn fx:id="nombrecol" prefWidth="75.0" text="Nombre" />
                               <TableColumn fx:id="totalganadocol" prefWidth="93.0" text="Total ganado" />
                            </columns>
                         </TableView>
-                        <Label layoutX="259.0" layoutY="14.0" text="Acogida">
+                        <Label layoutX="246.0" layoutY="42.0" text="Acogida">
                            <font>
-                              <Font size="20.0" />
+                              <Font name="Segoe UI Black" size="20.0" />
                            </font>
                         </Label>
-                        <ComboBox fx:id="acogidacb" layoutX="285.0" layoutY="53.0" prefWidth="150.0" />
-                        <Label layoutX="176.0" layoutY="57.0" text="Ciudad" />
+                        <ComboBox fx:id="acogidacb" layoutX="277.0" layoutY="88.0" prefWidth="150.0" style="-fx-background-color: A5C6A8;" />
+                        <Label layoutX="190.0" layoutY="92.0" text="Ciudad" />
+                        <ImageView fitHeight="36.0" fitWidth="40.0" layoutX="198.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@acfc6a1621f104231e286295ec21234f-removebg-preview.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </AnchorPane>
                </children>
