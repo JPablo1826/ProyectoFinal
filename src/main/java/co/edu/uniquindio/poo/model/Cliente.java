@@ -19,6 +19,7 @@ import co.edu.uniquindio.poo.exceptions.ObjetoExistenteException;
 public class Cliente extends Usuario {
     private String contasena;
     public String codigo;
+    public Resena resena;
     public final List<Compra> compras = new ArrayList<>();
     private EstrategiaDescuento estrategiaDescuento;
 
@@ -26,6 +27,7 @@ public class Cliente extends Usuario {
     public Cliente(String ID, String nombre, String telefono, String correo, String contasena) {
         super(ID, nombre, telefono, correo);
         this.contasena = contasena;
+        this.resena = new Resena("", 5);
     }
 
     public void realizarCompra(Compra compra) {

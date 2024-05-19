@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Resena implements Serializable{
-    private String descipcion;
+    private String descripcion;
     private int puntaje;
 
     
