@@ -92,7 +92,6 @@
                         <Font name="Segoe UI Black" size="20.0" />
                      </font>
                   </Label>
-                  <Button layoutX="274.0" layoutY="326.0" mnemonicParsing="false" onAction="#volverevent" text="Volver" />
                   <ImageView fitHeight="24.0" fitWidth="27.0" layoutX="226.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@36170-removebg-preview.png" />

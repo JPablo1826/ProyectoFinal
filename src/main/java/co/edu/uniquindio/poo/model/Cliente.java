@@ -20,7 +20,7 @@ public class Cliente extends Usuario {
     private String contasena;
     public String codigo;
     public Resena resena;
-    public final List<Compra> compras = new ArrayList<>();
+    public  List<Compra> compras = new ArrayList<>();
     private EstrategiaDescuento estrategiaDescuento;
 
     @Builder

@@ -216,8 +216,8 @@ public class menucliente implements Initializable{
                 default:
             }
         });
-        propEstrella.setValue(cliente.getResena().getPuntaje());
-        descripcionresenata.setText(cliente.getResena().getDescripcion());
+       // propEstrella.setValue(cliente.getResena().getPuntaje());
+       // descripcionresenata.setText(cliente.getResena().getDescripcion());
 
     }
 

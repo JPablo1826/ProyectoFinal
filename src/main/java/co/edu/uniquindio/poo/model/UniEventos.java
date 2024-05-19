@@ -277,6 +277,7 @@ public class UniEventos implements Serializable {
         compra.setCupon(cuponGeneral);
         Correo.enviarCorreoFactura(factura);
         cliente.agregarCompra(compra);
+        actualizarCliente(cliente);
         facturas.add(factura);
     }
 
@@ -380,6 +381,7 @@ public class UniEventos implements Serializable {
                 c.setTelefono(cliente.getTelefono());
                 c.setCodigo(cliente.getCodigo());
                 c.setResena(cliente.getResena());
+                c.setCompras(cliente.getCompras());
 
                 return;
             }
@@ -402,5 +404,7 @@ public class UniEventos implements Serializable {
         return eventos.stream().filter((evento) -> evento.getCiudad().equals(ciudad)).toList();
     }
 
+
+    
 
 }
