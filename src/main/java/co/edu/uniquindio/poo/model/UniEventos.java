@@ -101,11 +101,13 @@ public class UniEventos implements Serializable {
         eventos.add(evento);
     }
 
-    public void crearEvento(Evento evento) throws  ObjetoExistenteException {
+    public void crearEvento(Evento evento) throws  Exception {
         evento.setIdEvento(UUID.randomUUID().toString());
         if (buscarEventoPorIdEvento(evento.getIdEvento())) {
             throw new ObjetoExistenteException("El evento ya se encuentra creado");
         }
+        System.out.println(clientes);
+        Correo.enviarCorreoNuevoEvento(clientes,evento);
         eventos.add(evento);
     }
         public Evento crearEvento(String tipoEvento) throws ObjetoNoExistenteException {
@@ -285,23 +287,31 @@ public class UniEventos implements Serializable {
                 if (factura.getCompra().getEvento().getIdEvento().equals(evento.getIdEvento())) {
                     ocupacion += factura.getCompra().getCantidad();
                 }
-
             }
         }
         double resultado;
         if (tipoLocalidad == TipoLocalidad.GENERAL) {
 
-            resultado = ocupacion / evento.getLocalidadGeneral().getCapacidad();
+            resultado = (ocupacion / evento.getLocalidadGeneral().getCapacidad());
         } else {
             resultado = ocupacion / evento.getLocalidadVIP().getCapacidad();
         }
-        return resultado;
+        return resultado * 100;
     }
 
     public double obtenerTotalGanado() {
         double total = 0;
         for (Factura factura : facturas) {
             total += factura.getTotal();
+        }
+        return total;
+    }
+    public double obtenerTotalGanadoEvento(Evento evento) {
+        double total = 0;
+        for (Factura factura : facturas) {
+            if(factura.getCompra().getEvento().getIdEvento().equals(evento.getIdEvento())) {
+                total += factura.getTotal();
+            }
         }
         return total;
     }
@@ -389,14 +399,6 @@ public class UniEventos implements Serializable {
 
     public List<Evento> listarEventosCiudad(String ciudad) {
         return eventos.stream().filter((evento) -> evento.getCiudad().equals(ciudad)).toList();
-    }
-
-    public double obtenerPorcentajeVIP(Evento newValue) {
-        return obtenerPorcentajeLocalidad(TipoLocalidad.VIP, newValue);
-    }
-
-    public double obtenerPorcentajeGeneral(Evento newValue) {
-        return obtenerPorcentajeLocalidad(TipoLocalidad.GENERAL, newValue);
     }
 
 }

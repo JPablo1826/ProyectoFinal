@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.controller.menucliente">
+<TabPane fx:id="tabpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.poo.controller.menucliente">
   <tabs>
     <Tab text="Buscar Eventos">
       <content>
@@ -40,6 +40,7 @@
                   </TableView>
                   <TextArea fx:id="descripcionta" layoutX="362.0" layoutY="31.0" prefHeight="89.0" prefWidth="200.0" />
                   <Label layoutX="362.0" layoutY="14.0" text="Descripcion" />
+                  <Button layoutX="252.0" layoutY="343.0" mnemonicParsing="false" onAction="#realizarcompraevent" text="Realizar compra" />
                </children>
             </AnchorPane>
       </content>
@@ -48,17 +49,20 @@
       <content>
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
                <children>
-                  <Label layoutX="112.0" layoutY="93.0" text="Indica el numero de entradas" />
-                  <TextField fx:id="numentradas" layoutX="281.0" layoutY="89.0" />
-                  <Label layoutX="112.0" layoutY="171.0" text="Elige tu cupon" />
+                  <Label layoutX="67.0" layoutY="93.0" text="Indica el numero de entradas" />
+                  <TextField fx:id="numentradas" layoutX="237.0" layoutY="89.0" />
+                  <Label layoutX="67.0" layoutY="171.0" text="Elige tu cupon" />
                   <Label layoutX="268.0" layoutY="39.0" text="Compra">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
                   <Button layoutX="326.0" layoutY="239.0" mnemonicParsing="false" onAction="#cancelarcompraevent" text="Cancelar compra" />
-                  <Button layoutX="195.0" layoutY="239.0" mnemonicParsing="false" onAction="#finalizarcompraevent" text="Finalizar compra" />
-                  <TextField fx:id="cupon" layoutX="224.0" layoutY="167.0" />
+                  <Button fx:id="finalizarbutt" layoutX="195.0" layoutY="239.0" mnemonicParsing="false" onAction="#finalizarcompraevent" text="Finalizar compra" />
+                  <TextField fx:id="cupon" layoutX="157.0" layoutY="167.0" />
+                  <ComboBox fx:id="localidadcomb" layoutX="172.0" layoutY="129.0" prefWidth="150.0" />
+                  <Label layoutX="68.0" layoutY="133.0" text="Elige la localidad" />
+                  <TextArea fx:id="infota" layoutX="411.0" layoutY="84.0" prefHeight="141.0" prefWidth="164.0" text="Info" />
                </children>
             </AnchorPane>
       </content>
@@ -81,7 +85,6 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <Button layoutX="274.0" layoutY="326.0" mnemonicParsing="false" onAction="#volverevent" text="Volver" />
                </children>
             </AnchorPane>
         </content>

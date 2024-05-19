@@ -60,15 +60,15 @@
             <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
                <children>
                   <Label layoutX="112.0" layoutY="93.0" />
-                  <TextField fx:id="numentradas" layoutX="195.0" layoutY="98.0" />
+                  <TextField fx:id="porcentaje" layoutX="195.0" layoutY="98.0" />
                   <Label layoutX="112.0" layoutY="102.0" text="Porcentaje" />
                   <Label layoutX="223.0" layoutY="43.0" text="Cupones Especiales">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Button layoutX="223.0" layoutY="200.0" mnemonicParsing="false" onAction="#cancelarcompraevent" text="Agregar" />
-                  <TextField fx:id="cupon" layoutX="195.0" layoutY="149.0" />
+                  <Button layoutX="223.0" layoutY="200.0" mnemonicParsing="false" onAction="#agregarcuponevent" text="Agregar" />
+                  <TextField fx:id="codigo" layoutX="195.0" layoutY="149.0" />
                   <Label layoutX="112.0" layoutY="144.0" text="Codigo" />
                </children>
             </AnchorPane>

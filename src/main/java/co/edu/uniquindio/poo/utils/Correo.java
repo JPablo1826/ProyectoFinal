@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -34,11 +35,11 @@ public class Correo {
 		Evento evento = Evento.builder()
 				.IdEvento("IdEvento")
 				.NombreEvento("NombreEvento")
-				.Ciudad("Ciudad")
+				.ciudad("Ciudad")
 				.Descripcion("Descripcion")
 				.tipoEvento(TipoEvento.TEATRO)
 				.imagen("imagen.jpg")
-				.Fecha(LocalDate.now())
+				.fecha(LocalDate.now())
 				.Direccion("Direccion")
 				.localidadGeneral(
 						Localidad.builder().precio(100.00).tipo(TipoLocalidad.GENERAL).capacidad(500).build())
@@ -272,7 +273,7 @@ public class Correo {
 		return sbMsg1Solicitud;
 	}
 
-	public static void enviarCorreoNuevoEvento(ArrayList<Cliente> listaClientes, Evento evento) throws Exception {
+	public static void enviarCorreoNuevoEvento(List<Cliente> listaClientes, Evento evento) throws Exception {
 		MimeBodyPart messageBodyPart = new MimeBodyPart();
 		messageBodyPart.setContent(generarMensajeNuevoEvento(listaClientes, evento).toString(), "text/html");
 		MimeBodyPart attachmentPart = new MimeBodyPart();
@@ -287,7 +288,7 @@ public class Correo {
 				attachmentPart);
 	}
 
-	private static Object generarMensajeNuevoEvento(ArrayList<Cliente> listaClientes, Evento evento) {
+	private static StringBuilder generarMensajeNuevoEvento(List<Cliente> listaClientes, Evento evento) {
 		StringBuilder sbMsg1Solicitud = new StringBuilder();
 		sbMsg1Solicitud.append("<p>");
 		sbMsg1Solicitud.append("Estimado/a, ");
