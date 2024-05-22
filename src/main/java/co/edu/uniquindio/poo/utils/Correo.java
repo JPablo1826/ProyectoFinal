@@ -87,7 +87,7 @@ public class Correo {
 
 	}
 
-	public static void sendEmail(String[] toAddress, String subject, MimeBodyPart... messageBodyParts)
+	public static void sendEmail(String[] toAddress, String subject, MimeBodyPart... messageBodyParts) // ... es un arreglo 
 			throws AddressException, MessagingException, IOException {
 
 		final String username = "unieventosuq@gmail.com";
@@ -96,22 +96,22 @@ public class Correo {
 		Message msg = new MimeMessage(getCreateSession(username, password));
 
 		msg.setFrom(new InternetAddress(username));
-		InternetAddress[] toAddresses = new InternetAddress[toAddress.length];
+		InternetAddress[] toAddresses = new InternetAddress[toAddress.length]; //todos los correos 
 		for (int i = 0; i < toAddresses.length; i++) {
 			toAddresses[i] = new InternetAddress(toAddress[i]);
 		}
-		msg.setRecipients(Message.RecipientType.TO, toAddresses);
-		msg.setSubject(subject);
-		msg.setSentDate(new Date());
+		msg.setRecipients(Message.RecipientType.TO, toAddresses); // asigna todos los correos al mensajes 
+		msg.setSubject(subject);   	// es el titulo del mensaje
+		msg.setSentDate(new Date()); //fecha
 
-		Multipart multipart = new MimeMultipart();
+		Multipart multipart = new MimeMultipart();   //el cuerpo de los mensajes 
 		for (MimeBodyPart messageBodyPart : messageBodyParts) {
 			multipart.addBodyPart(messageBodyPart);
 		}
 
-		msg.setContent(multipart);
+		msg.setContent(multipart); // se agrega el contenido del mensaje 
 
-		Transport.send(msg, username, password);
+		Transport.send(msg, username, password); // y los envia 
 	}
 
 	public static void enviarCorreoCupon(String mail, String nombre, String codigo, String tipoCupon) throws Exception {
@@ -161,6 +161,7 @@ public class Correo {
 		return sbMsg1Solicitud;
 	}
 
+	// Del import
 	private static Session getCreateSession(String mailFrom, String mailPassword) {
 		Session session = Session.getInstance(getGmailProperties(), new Authenticator() {
 			@Override
@@ -194,6 +195,7 @@ public class Correo {
 		}
 	}
 
+	//por defecto
 	private static Properties getGmailProperties() {
 		Properties prop = new Properties();
 		prop.put("mail.smtp.auth", "true");
@@ -216,7 +218,7 @@ public class Correo {
 	}
 
 	private static String generarQr(Factura factura) throws Exception {
-		String formato = "BEGIN:VEVENT\nSUMMARY:%s\nDTSTART;VALUE=DATE:%s\nDTEND;VALUE=DATE:%s\nLOCATION:%s\nDESCRIPTION:Codigo %s\\nPrecio %s\\nCantidad %s\\nFecha de Compra %s\nEND:VEVENT";
+		String formato = "BEGIN:VEVENT\nSUMMARY:%s\nDTSTART;VALUE=DATE:%s\nDTEND;VALUE=DATE:%s\nLOCATION:%s\nDESCRIPTION:Codigo %s\\nPrecio %s\\nCantidad %s\\nFecha de Compra %s\nEND:VEVENT";  //%s para cambiar de formato
 		String data = String.format(formato,
 				factura.getCompra().getEvento().getNombreEvento(),
 				factura.getCompra().getEvento().getFecha().format(DateTimeFormatter.ofPattern("yyyyMMdd")),

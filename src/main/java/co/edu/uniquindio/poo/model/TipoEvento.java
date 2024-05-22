@@ -13,7 +13,7 @@ public enum TipoEvento {
     @Getter
     private String nombre;
 
-    public static String[] stringValues() {
+    public static String[] stringValues() {  
         TipoEvento[] tipos = TipoEvento.values();
         String[] nombres = new String[tipos.length];
         for (int i = 0; i < tipos.length; i++) {

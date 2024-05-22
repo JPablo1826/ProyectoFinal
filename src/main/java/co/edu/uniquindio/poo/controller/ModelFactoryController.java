@@ -24,7 +24,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModelFactoryController {
+public class ModelFactoryController { //la que comunica la logica con la vista 
     private static ModelFactoryController instance;
 
     public static ModelFactoryController getInstance() {
