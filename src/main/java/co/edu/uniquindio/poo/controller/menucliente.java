@@ -1,7 +1,6 @@
 package co.edu.uniquindio.poo.controller;
 import java.time.format.DateTimeFormatter;
 
-import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;

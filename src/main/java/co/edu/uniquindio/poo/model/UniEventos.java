@@ -16,7 +16,6 @@ import co.edu.uniquindio.poo.exceptions.ObjetoExistenteException;
 import co.edu.uniquindio.poo.exceptions.ObjetoNoExistenteException;
 import co.edu.uniquindio.poo.exceptions.inicioFallidoException;
 import co.edu.uniquindio.poo.utils.Correo;
-
 import lombok.Getter;
 
 @Getter
@@ -55,6 +54,7 @@ public class UniEventos implements Serializable {
 
     public void registrarNuevoCliente(Cliente cliente) throws Exception {
         cliente.setCodigo(generarCodigo());
+        
         if (buscarClientePorEmail(cliente.getCorreo()) != null) {
             throw new ObjetoExistenteException("El cliente ya está registrado.");
         }
@@ -75,7 +75,7 @@ public class UniEventos implements Serializable {
         observadores.add(observador);
     }
 
-    public void crearCupon(Cliente cliente) throws Exception {
+    public void crearCuponCliente(Cliente cliente) throws Exception {
         String codigo = UUID.randomUUID().toString();
         crearCupon(Cupon.builder().cuponRegistro(true).codigo(codigo).estado(Estado.ACTIVO)
                 .porcentaje(15).build());
@@ -92,9 +92,11 @@ public class UniEventos implements Serializable {
     }
 
     // Registrar un evento
+    
     public void registrarNuevoEvento(String tipoEvento) throws ObjetoExistenteException, ObjetoNoExistenteException {
         // Suponiendo que el ID del evento es generado o manejado de alguna manera aquí
         Evento evento = crearEvento(tipoEvento);
+       
         if (buscarEventoPorIdEvento(evento.getIdEvento())) {
             throw new ObjetoExistenteException("El evento ya se encuentra creado");
         }
@@ -103,6 +105,14 @@ public class UniEventos implements Serializable {
 
     public void crearEvento(Evento evento) throws  Exception {
         evento.setIdEvento(UUID.randomUUID().toString());
+        if (evento.getNombreEvento()==null|| evento.getDireccion()==null){
+            throw new NullPointerException ("El nombre del evento no puede ser nulo");
+        }
+        
+        if (evento.getLocalidadGeneral().getPrecio()<1||evento.getLocalidadGeneral().getCapacidad()<1||evento.getLocalidadVIP().getCapacidad()<1||evento.getLocalidadVIP().getPrecio()<1  ){
+            throw new  IllegalArgumentException("El precio de la localidad no puede ser negativo");
+            
+        }
         if (buscarEventoPorIdEvento(evento.getIdEvento())) {
             throw new ObjetoExistenteException("El evento ya se encuentra creado");
         }
@@ -110,7 +120,7 @@ public class UniEventos implements Serializable {
         Correo.enviarCorreoNuevoEvento(clientes,evento);
         eventos.add(evento);
     }
-        public Evento crearEvento(String tipoEvento) throws ObjetoNoExistenteException {
+    public Evento crearEvento(String tipoEvento) throws ObjetoNoExistenteException {
         switch (tipoEvento) {
             case "teatro":
                 return new TeatroFactory().crearEvento();
@@ -189,23 +199,31 @@ public class UniEventos implements Serializable {
 
     }
 
-    public Evento buscarEventoPorId(String idEvento) {
+    public Evento buscarEventoPorId(String idEvento) throws ObjetoNoExistenteException {
+      
         for (Evento evento : eventos) {
             if (evento.getIdEvento().equals(idEvento)) {
+                System.out.println(evento);
                 return evento; // Devuelve el evento si el ID coincide
             }
         }
-        return null;
+        throw new ObjetoNoExistenteException ("El evento con el ID proporcionado no existe");
     }
-    // Devuelve null si no se encuentra ningún evento con ese ID
+   
 
     // Iniciar Sesion
 
     public Usuario iniciarSesion(String correo, String contrasena)
             throws inicioFallidoException, NoVerificadoException {
+        if (correo.equals("")||contrasena.equals("")){
+            throw new inicioFallidoException("Credenciales no proporcionadas");
+        }
+
         if (esAdministrador(correo, contrasena)) {
             return Administrador.obtenerInstancia();
         }
+
+    
         System.out.println(clientes);
         for (Cliente cliente : clientes) {
             String cor = cliente.getCorreo();
@@ -217,6 +235,8 @@ public class UniEventos implements Serializable {
                     throw new NoVerificadoException("El cliente no esta verificado");
                 return cliente;
             }
+
+           
         }
         throw new inicioFallidoException("Contraseña o correo incorrecto");
 
@@ -252,7 +272,7 @@ public class UniEventos implements Serializable {
             throw new CapacidadException("La cantidad supera la capacidad solicitada");
         double total = (tipo == TipoLocalidad.GENERAL ? evento.getLocalidadGeneral().getPrecio()
                 : evento.getLocalidadVIP().getPrecio()) * cantidad;
-        // TODO Falta actualizar la capacidad del evento
+       
         Factura factura = Factura.builder().compra(compra).fechaCompra(LocalDate.now())
                 .codigoFactura(compra.getIdCompra()).total(total).build();
         compra.setFactura(factura);
@@ -342,12 +362,14 @@ public class UniEventos implements Serializable {
     }
 
     public void crearCupon(Cupon cupon) throws ObjetoExistenteException {
+        if (cupon==null) throw new NullPointerException ("El cupón no puede ser nulo");
         for (Cupon cuponc : cupones) {
             if (cupon.getCodigo().equals(cuponc.getCodigo())) {
                 throw new ObjetoExistenteException("El cupon ya se encuentra creado");
             }
         }
         cupones.add(cupon);
+
     }
 
     public void redimirCupon(Cupon cupon) throws ObjetoNoExistenteException {

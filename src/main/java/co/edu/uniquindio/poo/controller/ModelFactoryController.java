@@ -16,11 +16,11 @@ import co.edu.uniquindio.poo.model.TipoLocalidad;
 import co.edu.uniquindio.poo.model.UniEventos;
 import co.edu.uniquindio.poo.model.Usuario;
 import co.edu.uniquindio.poo.utils.Serializacion;
-import javafx.util.Callback;
+
 import java.time.LocalDate;
 
 
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 
