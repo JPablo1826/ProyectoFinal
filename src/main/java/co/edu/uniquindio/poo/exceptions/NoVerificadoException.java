@@ -1,4 +1,4 @@
-package co.edu.uniquindio.poo.model;
+package co.edu.uniquindio.poo.exceptions;
 
 public class NoVerificadoException extends Exception{
 

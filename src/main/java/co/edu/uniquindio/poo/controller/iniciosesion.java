@@ -3,9 +3,9 @@ package co.edu.uniquindio.poo.controller;
 import java.io.IOException;
 
 import co.edu.uniquindio.poo.App;
+import co.edu.uniquindio.poo.exceptions.NoVerificadoException;
 import co.edu.uniquindio.poo.exceptions.ObjetoNoExistenteException;
 import co.edu.uniquindio.poo.exceptions.inicioFallidoException;
-import co.edu.uniquindio.poo.model.NoVerificadoException;
 import co.edu.uniquindio.poo.model.Usuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

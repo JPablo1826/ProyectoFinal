@@ -10,12 +10,12 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import co.edu.uniquindio.poo.exceptions.NoVerificadoException;
 import co.edu.uniquindio.poo.exceptions.ObjetoNoExistenteException;
 import co.edu.uniquindio.poo.exceptions.inicioFallidoException;
 import co.edu.uniquindio.poo.model.Cliente;
 import co.edu.uniquindio.poo.model.Evento;
 import co.edu.uniquindio.poo.model.Localidad;
-import co.edu.uniquindio.poo.model.NoVerificadoException;
 import co.edu.uniquindio.poo.model.TipoLocalidad;
 import co.edu.uniquindio.poo.model.UniEventos;
 import co.edu.uniquindio.poo.model.Usuario;

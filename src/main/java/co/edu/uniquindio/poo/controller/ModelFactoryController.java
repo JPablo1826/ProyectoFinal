@@ -1,5 +1,6 @@
 package co.edu.uniquindio.poo.controller;
 
+import co.edu.uniquindio.poo.exceptions.NoVerificadoException;
 import co.edu.uniquindio.poo.exceptions.ObjetoExistenteException;
 import co.edu.uniquindio.poo.exceptions.ObjetoNoExistenteException;
 import co.edu.uniquindio.poo.exceptions.inicioFallidoException;
@@ -9,7 +10,6 @@ import co.edu.uniquindio.poo.model.Cupon;
 import co.edu.uniquindio.poo.model.Estado;
 import co.edu.uniquindio.poo.model.Evento;
 import co.edu.uniquindio.poo.model.Localidad;
-import co.edu.uniquindio.poo.model.NoVerificadoException;
 import co.edu.uniquindio.poo.model.Resena;
 import co.edu.uniquindio.poo.model.TipoEvento;
 import co.edu.uniquindio.poo.model.TipoLocalidad;
@@ -74,6 +74,11 @@ public class ModelFactoryController { //la que comunica la logica con la vista
     public List<Evento> listarEventosCiudad(String ciudad) {
         UniEventos unieventos = Serializacion.obternerDatos();
         return unieventos.listarEventosCiudad(ciudad);
+    }
+
+    public List<Compra> listarComprasClientes(String idClient) {
+        UniEventos uniEventos=Serializacion.obternerDatos();
+        return uniEventos.listarComprasClientes(idClient);
     }
 
     public double obtenerPorcentaje(Evento newValue, TipoLocalidad tipo) {

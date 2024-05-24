@@ -12,6 +12,7 @@ import java.util.Random;
 import java.util.UUID;
 
 import co.edu.uniquindio.poo.exceptions.CapacidadException;
+import co.edu.uniquindio.poo.exceptions.NoVerificadoException;
 import co.edu.uniquindio.poo.exceptions.ObjetoExistenteException;
 import co.edu.uniquindio.poo.exceptions.ObjetoNoExistenteException;
 import co.edu.uniquindio.poo.exceptions.inicioFallidoException;
